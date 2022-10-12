@@ -62,3 +62,10 @@ the local `common` checkout.
 `apache-cgi` is there because `nginx` can only speak FastCGI/HTTP and running *all* the babel
 apps under FastCGI/HTTP is still aspirational.
 
+## TODO
+
+- [ ] merge the `imgsrv` DEV-231-grok branch and update the `Dockerfile`s to include `grok`
+- [ ] update `slip-lib/Searcher.pm` to set `wt=xml` because the new solr defaults return JSON
+- [ ] adding `pt` requires filling out more of the `ht_web` tables (namely `mb_*`)
+- [ ] easy mechanism to generate placeholder volumes in `imgsrv-sample-data` that correspond to the records in the catalog
+
