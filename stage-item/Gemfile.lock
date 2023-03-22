@@ -1,0 +1,54 @@
+GIT
+  remote: ../../ht-pairtree
+  revision: 56c5d0517588065b1dbd8d7b208dfcb9a0d61793
+  specs:
+    ht-pairtree (0.1.0)
+      rpairtree
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    byebug (11.1.3)
+    coderay (1.1.3)
+    faraday (2.7.4)
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-follow_redirects (0.3.0)
+      faraday (>= 1, < 3)
+    faraday-net_http (3.0.2)
+    marc (1.2.0)
+      rexml
+      scrub_rb (>= 1.0.1, < 2)
+      unf
+    method_source (1.0.0)
+    mysql2 (0.5.5)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry-byebug (3.10.1)
+      byebug (~> 11.0)
+      pry (>= 0.13, < 0.15)
+    rexml (3.2.5)
+    rpairtree (0.2.0)
+    ruby2_keywords (0.0.5)
+    scrub_rb (1.0.1)
+    sequel (5.66.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.8.2)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  faraday (~> 2.7)
+  faraday-follow_redirects
+  ht-pairtree!
+  marc (~> 1.2)
+  mysql2
+  pry
+  pry-byebug
+  sequel
+
+BUNDLED WITH
+   2.2.22
