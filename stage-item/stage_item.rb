@@ -57,7 +57,7 @@ class StageItem
   def stage_content
     pt.create(htid, new_namespace_allowed: true)
     repo_path = pt.path_for(htid)
-    puts("↪️ Copying to repo\n")
+    puts("↪️ Copying zip and mets to repo #{repo_path}\n")
     FileUtils.cp([zip,mets],repo_path)
   end
 

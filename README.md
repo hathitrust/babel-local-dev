@@ -73,6 +73,36 @@ Not yet configured:
 * babel cgi apps run under apache in a single container
 * imgsrv plack/psgi process runs in its own container
 
+## Staging an Item
+
+First, get a HathiTrust ZIP and METS. The easiest way to do this is probably by
+using the [Data API client](https://babel.hathitrust.org/cgi/htdc) to download
+a public domain item unencumbered by any contractual restrictions, for example
+`uc2.ark:/13960/t4mk66f1d`. Select "Download" and in turn select "Item METS
+file" and "entire item" and submit the form; this will download the ZIP and
+METS respectively.
+
+Running the stage item script requires a Ruby runtime. It will automate putting
+the item in the appropriate location under `imgsrv-sample-data`, fetch the
+bibliographic data, and extract and index the full text.
+
+First make sure all the dependencies are running:
+
+```bash
+docker-compose build
+docker-compose up
+```
+
+Then, install dependencies for the `stage-item` script and run it with the
+downloaded zip and METS:
+
+```bash
+cd babel-local-dev/stage-item
+bundle config set --local path 'vendor/bundle'
+bundle install
+bundle exec ruby stage_item.rb uc2.ark:/13960/t4mk66f1d ark+=13960=t4mk66f1d.zip ark+=13960=t4mk66f1d.mets.xml
+```
+
 ## TODO
 
 - [ ] adding `pt` requires filling out more of the `ht_web` tables (namely `mb_*`)

@@ -29,7 +29,7 @@ services:
   apache-babel:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.apache
+      dockerfile: ../imgsrv/docker/Dockerfile.apache
     image: hathitrust-imsgsrv-apache
     ports:
       - "8888:80"
