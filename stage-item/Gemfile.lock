@@ -1,9 +1,10 @@
 GIT
-  remote: ../../ht-pairtree
-  revision: 7021c21c07d7cc018f23b3dfd7f3f3954a109f57
+  remote: https://github.com/hathitrust/ht-pairtree
+  revision: a8620c464438c8de7ad9a492b1fd5bd7f0756079
+  tag: v0.1.0
   specs:
     ht-pairtree (0.1.0)
-      rpairtree
+      pairtree (~> 0.3)
 
 GEM
   remote: https://rubygems.org/
@@ -22,6 +23,7 @@ GEM
       unf
     method_source (1.0.0)
     mysql2 (0.5.5)
+    pairtree (0.3.0)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -29,7 +31,6 @@ GEM
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
     rexml (3.2.5)
-    rpairtree (0.2.0)
     ruby2_keywords (0.0.5)
     scrub_rb (1.0.1)
     sequel (5.66.0)

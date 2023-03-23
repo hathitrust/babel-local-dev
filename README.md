@@ -10,13 +10,14 @@ so `babel-local-dev` has access to the other repositories.
 
 First clone this repository:
 ```bash
-git clone git@github.com:hathitrust/babel-local-dev.git
+git clone git@github.com:hathitrust/babel-local-dev.git babel
 ```
 
 Then run:
 
 ```bash
-babel-local-dev/setup.sh
+cd babel
+./setup.sh
 ```
 
 This will check out the other repositories along with their submodules.
@@ -28,7 +29,7 @@ There's a lot, because we're replicating running on the dev servers with
 In your workdir:
 
 ```
-docker-compose -f ./babel-local-dev/docker-compose.yml build
+docker-compose build
 ```
 
 ## Step 4: run `babel-local-dev`:
@@ -36,7 +37,7 @@ docker-compose -f ./babel-local-dev/docker-compose.yml build
 In your workdir:
 
 ```
-docker-compose -f ./babel-local-dev/docker-compose.yml up
+docker-compose up
 ```
 
 In your browser:
@@ -45,12 +46,13 @@ In your browser:
 * catalog solr: `http://localhost:9033`
 * full-text solr: `http://localhost:8983`
 
-imgsrv:
+PageTurner & imgsrv:
 
-* `http://localhost:8888/cgi/imgsrv/cover?id=test.pd_open`
-* `http://localhost:8888/cgi/imgsrv/image?id=test.pd_open&seq=1`
-* `http://localhost:8888/cgi/imgsrv/html?id=test.pd_open&seq=1`
-* `http://localhost:8888/cgi/imgsrv/download/pdf?id=test.pd_open&seq=1&attachment=0`
+* `http://localhost:8080/cgi/pt?id=test.pd_open`
+* `http://localhost:8080/cgi/imgsrv/cover?id=test.pd_open`
+* `http://localhost:8080/cgi/imgsrv/image?id=test.pd_open&seq=1`
+* `http://localhost:8080/cgi/imgsrv/html?id=test.pd_open&seq=1`
+* `http://localhost:8080/cgi/imgsrv/download/pdf?id=test.pd_open&seq=1&attachment=0`
 
 mysql is exposed at 127.0.0.1:3307. The default username & password with write
 access is `mdp-admin` / `mdp-admin` (needless to say, do not use this image in
@@ -62,10 +64,11 @@ mysql -h 127.0.0.1 -p 3307 -u mdp-admin -p
 Huzzah!
 
 Not yet configured:
-* `http://localhost:8888/cgi/pt?id=test.pd_open`
-* `http://localhost:8888/cgi/mb`
-* `http://localhost:8888/cgi/whoami`
-* `http://localhost:8888/cgi/ping`
+* `http://localhost:8080/cgi/mb`
+* `http://localhost:8080/cgi/ls`
+* `http://localhost:8080/cgi/whoami`
+* `http://localhost:8080/cgi/ping`
+* etc
 
 ## How this works (for now)
 
@@ -97,13 +100,20 @@ Then, install dependencies for the `stage-item` script and run it with the
 downloaded zip and METS:
 
 ```bash
-cd babel-local-dev/stage-item
+cd stage-item
 bundle config set --local path 'vendor/bundle'
 bundle install
 bundle exec ruby stage_item.rb uc2.ark:/13960/t4mk66f1d ark+=13960=t4mk66f1d.zip ark+=13960=t4mk66f1d.mets.xml
 ```
 
+Note that the zip and METS must be named as they are in the actual
+repository -- if you name them "foo.zip" or "foo.xml" they will not be renamed,
+and full-text indexing and PageTurner will not be able to find the item.
+
 ## TODO
 
-- [ ] adding `pt` requires filling out more of the `ht_web` tables (namely `mb_*`)
+- [ ] add `mb` and `ls`
+- [ ] ensure database user can write to relevant tables
+- [ ] link to documentation for important tasks - e.g. running apps under debugging, updating css/js, etc
 - [ ] easy mechanism to generate placeholder volumes in `imgsrv-sample-data` that correspond to the records in the catalog
+- [ ] make it easier to fetch real volumes
