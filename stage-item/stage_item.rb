@@ -135,9 +135,7 @@ class StageItem
     load_into_solr_sh = File.join(HTDEV_ROOT,"slip","sample","load_into_solr.sh")
     pt_objid = File.basename(mets,".mets.xml")
 
-    puts("#{slip_sample_dir}/load_into_solr.sh #{slip_sample_dir}/#{pt_objid}*.solr.xml")
-    
-    # slip/sample/load_into_solr.sh
+    system("bash #{slip_sample_dir}/load_into_solr.sh #{slip_sample_dir}/#{pt_objid}*.solr.xml")
   end
 
   def self.usage
