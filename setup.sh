@@ -7,11 +7,16 @@ read
 git clone --recurse-submodules git@github.com:hathitrust/imgsrv
 git clone --recurse-submodules git@github.com:hathitrust/catalog
 git clone --recurse-submodules git@github.com:hathitrust/common
+git clone --recurse-submodules git@github.com:hathitrust/pt
 git clone --recurse-submodules git@github.com:hathitrust/hathitrust_catalog_indexer
 git clone --recurse-submodules -b DEV-667-stage-item git@github.com:hathitrust/ht-pairtree
 git clone --recurse-submodules -b DEV-661-docker git@github.com:hathitrust/slip
 git clone --recurse-submodules -b DEV-661-docker git@github.com:hathitrust/imgsrv-sample-data
 git clone --recurse-submodules -b DEV-661-docker git@github.com:hathitrust/lss_solr_configs
+
+# Directories the web server needs to write to under /htapps/babel
+mkdir cache logs
+chmod a+w cache logs
 
 # Not yet covered in the apache config although maybe it was before
 # git clone git@github.com:hathitrust/pt.git
