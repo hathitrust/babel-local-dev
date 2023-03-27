@@ -19,6 +19,9 @@ git clone --recurse-submodules -b DEV-661-docker git@github.com:hathitrust/lss_s
 mkdir cache logs
 chmod a+w cache logs
 
+# Directory solr needs to write to
+chmod a+w lss_solr_configs/lss-dev/core-x/data
+
 # Not yet covered in the apache config although maybe it was before
 # git clone git@github.com:hathitrust/pt.git
 
