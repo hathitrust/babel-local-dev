@@ -4,7 +4,7 @@ echo "Checking out into $PWD - enter to continue, ctrl-C to abort"
 
 read
 
-git clone --recurse-submodules git@github.com:hathitrust/imgsrv
+git clone --recurse-submodules -b DEV-663-geoip git@github.com:hathitrust/imgsrv
 git clone --recurse-submodules git@github.com:hathitrust/imgsrv-sample-data
 git clone --recurse-submodules git@github.com:hathitrust/catalog
 git clone --recurse-submodules git@github.com:hathitrust/common
