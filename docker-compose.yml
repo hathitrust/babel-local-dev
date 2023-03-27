@@ -41,7 +41,10 @@ services:
     build: .
     volumes:
       - "./docker/000-default.conf:/etc/apache2/sites-enabled/000-default.conf"
-      - ..:/htapps/babel
+      - ../imgsrv:/htapps/babel/imgsrv
+      - ../pt:/htapps/babel/pt
+      - ../ssd:/htapps/babel/ssd
+      - ../common:/htapps/babel/common
       - "../imgsrv-sample-data/sdr1:/sdr1"
       - "../imgsrv-sample-data/etc:/htapps/babel/etc"
       - "../imgsrv-sample-data/watermarks:/htapps/babel/watermarks"

@@ -8,6 +8,7 @@ git clone --recurse-submodules git@github.com:hathitrust/imgsrv
 git clone --recurse-submodules git@github.com:hathitrust/catalog
 git clone --recurse-submodules git@github.com:hathitrust/common
 git clone --recurse-submodules git@github.com:hathitrust/pt
+git clone --recurse-submodules git@github.com:hathitrust/ssd
 git clone --recurse-submodules git@github.com:hathitrust/hathitrust_catalog_indexer
 git clone --recurse-submodules -b DEV-667-stage-item git@github.com:hathitrust/ht-pairtree
 git clone --recurse-submodules -b DEV-661-docker git@github.com:hathitrust/slip
