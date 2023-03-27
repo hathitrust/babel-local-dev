@@ -5,9 +5,8 @@ require "faraday/follow_redirects"
 require "fileutils"
 require "ht/pairtree"
 require "marc"
-require "pry"
-require "pry-byebug"
 require "sequel"
+require "tempfile"
 
 # The parent of babel-local-dev where all the HathiTrust repos are checked out
 HTDEV_ROOT = ENV["HTDEV_ROOT"] || File.realpath(File.join(__dir__,"..",".."))
@@ -34,10 +33,10 @@ class StageItem
     @zip = zip
     @mets = mets
 
-    usage unless [@zip, @mets].all? { |f| File.exist?(f) } &&
+    self.class.usage unless [@zip, @mets].all? { |f| File.exist?(f) } &&
       @zip.match?(/\.zip$/) && @mets.match?(/\.xml$/)
 
-    @pt = HathiTrust::Pairtree.new(root: SDRDATAROOT)
+    @pt = HathiTrust::Pairtree.new(root: File.join(SDRDATAROOT,'obj'))
   end
 
   def run
@@ -57,6 +56,7 @@ class StageItem
   def stage_content
     pt.create(htid, new_namespace_allowed: true)
     repo_path = pt.path_for(htid)
+
     puts("↪️ Copying zip and mets to repo #{repo_path}\n")
     FileUtils.cp([zip,mets],repo_path)
   end
@@ -139,7 +139,7 @@ class StageItem
   end
 
   def self.usage
-    <<~EOT
+    STDERR.puts <<~EOT
       Usage: $0 namespace.barcode some_item.zip some_item.mets.xml
 
       where htid is something like "namespace.objid".
@@ -150,6 +150,8 @@ class StageItem
       * populates the rights_current and slip_rights table
       * indexes the full text
     EOT
+
+    exit 1
   end
 end
 
