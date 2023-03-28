@@ -1,2 +1,4 @@
 vendor
 .bundle
+stage-item/*.xml
+stage-item/*.zip

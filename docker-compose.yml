@@ -8,22 +8,22 @@ services:
       - "8080:8080"
     volumes:
       - ./docker/nginx-default.conf:/etc/nginx/conf.d/default.conf
-      - ../catalog:/app
-      - ../common:/app/common-dev
+      - ./catalog:/app
+      - ./common:/app/common-dev
     depends_on:
       - vufind
       - imgsrv
       - apache-cgi
 
   imgsrv:
-    build: ../imgsrv
-    image: hathitrust-imgsrv
+    build: ./docker/babel-base
+    image: hathitrust-babel-base
     volumes:
-      - ../imgsrv:/htapps/babel/imgsrv
-      - "../imgsrv-sample-data/sdr1:/sdr1"
-      - "../imgsrv-sample-data/etc:/htapps/babel/etc"
-      - "../imgsrv-sample-data/watermarks:/htapps/babel/watermarks"
-      - "../imgsrv-sample-data:/tmp/imgsrv-sample-data"
+      - ./imgsrv:/htapps/babel/imgsrv
+      - "./sample-data/sdr1:/sdr1"
+      - "./sample-data/etc:/htapps/babel/etc"
+      - "./sample-data/watermarks:/htapps/babel/watermarks"
+      - "./sample-data:/tmp/sample-data"
     environment:
       - SDRROOT=/htapps/babel
       - SDRDATAROOT=/sdr1
@@ -38,17 +38,17 @@ services:
     command: bash -c "/htapps/babel/imgsrv/bin/startup_imgsrv"
 
   apache-cgi:
-    build: .
+    build: ./docker/apache-cgi
     volumes:
       - "./docker/000-default.conf:/etc/apache2/sites-enabled/000-default.conf"
-      - ../imgsrv:/htapps/babel/imgsrv
-      - ../pt:/htapps/babel/pt
-      - ../ssd:/htapps/babel/ssd
-      - ../common:/htapps/babel/common
-      - "../imgsrv-sample-data/sdr1:/sdr1"
-      - "../imgsrv-sample-data/etc:/htapps/babel/etc"
-      - "../imgsrv-sample-data/watermarks:/htapps/babel/watermarks"
-      - "../imgsrv-sample-data:/tmp/imgsrv-sample-data"
+      - ./imgsrv:/htapps/babel/imgsrv
+      - ./pt:/htapps/babel/pt
+      - ./ssd:/htapps/babel/ssd
+      - ./common:/htapps/babel/common
+      - "./sample-data/sdr1:/sdr1"
+      - "./sample-data/etc:/htapps/babel/etc"
+      - "./sample-data/watermarks:/htapps/babel/watermarks"
+      - "./sample-data:/tmp/sample-data"
     environment:
       - SDRROOT=/htapps/babel
       - SDRDATAROOT=/sdr1
@@ -59,10 +59,10 @@ services:
       - "41028:41028"
 
   vufind:
-    build: ../catalog
+    build: ./catalog
     hostname: 'catalog-dev'
     volumes:
-      - ../catalog:/app
+      - ./catalog:/app
     depends_on:
       - mysql-sdr
       - solr-sdr-catalog
@@ -79,16 +79,16 @@ services:
     ports:
       - "8983:8983"
     volumes:
-      - ../lss_solr_configs/lss-dev/core-x:/opt/solr/server/solr/core-x
-      - ../lss_solr_configs/lss-dev/core-y:/opt/solr/server/solr/core-y
-      - ../lss_solr_configs:/opt/lss_solr_configs
-      - ../lss_solr_configs/lib:/opt/solr/server/solr/lib
+      - ./lss_solr_configs/lss-dev/core-x:/opt/solr/server/solr/core-x
+      - ./lss_solr_configs/lss-dev/core-y:/opt/solr/server/solr/core-y
+      - ./lss_solr_configs:/opt/lss_solr_configs
+      - ./lss_solr_configs/lib:/opt/solr/server/solr/lib
 
   mysql-sdr:
     image: ghcr.io/hathitrust/db-image:latest
     volumes:
-      - ../slip/etc/sql/100_slip.sql:/docker-entrypoint-initdb.d/100_slip.sql
-      - ../catalog/docker/vufind.sql:/docker-entrypoint-initdb.d/101_vufind.sql
+      - ./slip/etc/sql/100_slip.sql:/docker-entrypoint-initdb.d/100_slip.sql
+      - ./catalog/docker/vufind.sql:/docker-entrypoint-initdb.d/101_vufind.sql
     ports:
       - "3307:3306"
 
@@ -102,15 +102,15 @@ services:
   # when we do 'docker-compose up'
 
   slip:
-    build: ../slip
+    build: ./slip
     image: hathitrust-slip
     volumes:
-      - ../slip:/htapps/babel/slip
+      - ./slip:/htapps/babel/slip
       # this is where docs-j saves output
-      - ../slip/sample:/htapps/babel/logs/tmp
-      - "../imgsrv-sample-data/sdr1:/sdr1"
-      - "../imgsrv-sample-data/etc:/htapps/babel/etc"
-      - "../imgsrv-sample-data:/tmp/imgsrv-sample-data"
+      - ./slip/sample:/htapps/babel/logs/tmp
+      - "./sample-data/sdr1:/sdr1"
+      - "./sample-data/etc:/htapps/babel/etc"
+      - "./sample-data:/tmp/sample-data"
     environment:
       - SDRROOT=/htapps/babel
       - SDRDATAROOT=/sdr1
@@ -132,8 +132,8 @@ services:
     depends_on:
       - solr-sdr-catalog
     volumes:
-      - "../imgsrv-sample-data/metadata:/app/metadata"
+      - "./sample-data/metadata:/app/metadata"
     profiles:
       - indexing
 
-  # todo: ingest, bound to imgsrv-sample-data
+  # todo: ingest, bound to sample-data

@@ -1,19 +1,36 @@
 #!/bin/bash
 
-echo "Checking out into $PWD - enter to continue, ctrl-C to abort"
+cat <<EOT
+Checking out into $PWD
 
-read
+What should the git URL be?
+ [1] HTTPS: https://github.com/hathitrust (default)
+ [2] SSH:   $GIT_BASE
 
-git clone --recurse-submodules -b DEV-663-geoip git@github.com:hathitrust/imgsrv
-git clone --recurse-submodules git@github.com:hathitrust/imgsrv-sample-data
-git clone --recurse-submodules git@github.com:hathitrust/catalog
-git clone --recurse-submodules git@github.com:hathitrust/common
-git clone --recurse-submodules git@github.com:hathitrust/pt
-git clone --recurse-submodules git@github.com:hathitrust/ssd
-git clone --recurse-submodules git@github.com:hathitrust/hathitrust_catalog_indexer
-git clone --recurse-submodules -b DEV-667-stage-item git@github.com:hathitrust/ht-pairtree
-git clone --recurse-submodules -b DEV-661-docker git@github.com:hathitrust/slip
-git clone --recurse-submodules -b DEV-661-docker git@github.com:hathitrust/lss_solr_configs
+Enter 1, 2, or ctrl-C to abort.
+EOT
+
+read proto
+
+GIT_BASE="https://github.com/hathitrust"
+
+if [[ "$proto" == "2" ]]; then
+  GIT_BASE="$GIT_BASE"
+fi
+
+echo $GIT_BASE
+exit
+
+git clone --recurse-submodules -b DEV-663-geoip $GIT_BASE/imgsrv
+git clone --recurse-submodules $GIT_BASE/imgsrv-sample-data ./sample-data
+git clone --recurse-submodules $GIT_BASE/catalog
+git clone --recurse-submodules $GIT_BASE/common
+git clone --recurse-submodules $GIT_BASE/pt
+git clone --recurse-submodules $GIT_BASE/ssd
+git clone --recurse-submodules $GIT_BASE/hathitrust_catalog_indexer
+git clone --recurse-submodules -b DEV-667-stage-item $GIT_BASE/ht-pairtree
+git clone --recurse-submodules -b DEV-661-docker $GIT_BASE/slip
+git clone --recurse-submodules -b DEV-661-docker $GIT_BASE/lss_solr_configs
 
 # Directories the web server needs to write to under /htapps/babel
 mkdir cache logs
@@ -23,9 +40,9 @@ chmod a+w cache logs
 chmod a+w lss_solr_configs/lss-dev/core-x/data
 
 # Not yet covered in the apache config although maybe it was before
-# git clone git@github.com:hathitrust/pt.git
+# git clone $GIT_BASE/pt.git
 
 # Do we need these separately?
-# git clone git@github.com:hathitrust/mdp-lib.git
-# git clone git@github.com:hathitrust/slip-lib.git
-# git clone git@github.com:hathitrust/plack-lib.git
+# git clone $GIT_BASE/mdp-lib.git
+# git clone $GIT_BASE/slip-lib.git
+# git clone $GIT_BASE/plack-lib.git

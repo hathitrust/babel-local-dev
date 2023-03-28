@@ -10,13 +10,14 @@ so `babel-local-dev` has access to the other repositories.
 
 First clone this repository:
 ```bash
-git clone git@github.com:hathitrust/babel-local-dev.git
+git clone git@github.com:hathitrust/babel-local-dev.git babel
 ```
 
 Then run:
 
 ```bash
-babel-local-dev/setup.sh
+cd babel
+./setup.sh
 ```
 
 This will check out the other repositories along with their submodules.
