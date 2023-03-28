@@ -29,7 +29,7 @@ There's a lot, because we're replicating running on the dev servers with
 In your workdir:
 
 ```
-docker-compose -f ./babel-local-dev/docker-compose.yml build
+docker-compose build
 ```
 
 ## Step 4: run `babel-local-dev`:
@@ -37,7 +37,7 @@ docker-compose -f ./babel-local-dev/docker-compose.yml build
 In your workdir:
 
 ```
-docker-compose -f ./babel-local-dev/docker-compose.yml up
+docker-compose up
 ```
 
 In your browser:
@@ -98,7 +98,7 @@ Then, install dependencies for the `stage-item` script and run it with the
 downloaded zip and METS:
 
 ```bash
-cd babel-local-dev/stage-item
+cd stage-item
 bundle config set --local path 'vendor/bundle'
 bundle install
 bundle exec ruby stage_item.rb uc2.ark:/13960/t4mk66f1d ark+=13960=t4mk66f1d.zip ark+=13960=t4mk66f1d.mets.xml

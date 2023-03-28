@@ -40,7 +40,7 @@ services:
   apache-cgi:
     build: ./docker/apache-cgi
     volumes:
-      - "./docker/000-default.conf:/etc/apache2/sites-enabled/000-default.conf"
+      - "./docker/apache-cgi/000-default.conf:/etc/apache2/sites-enabled/000-default.conf"
       - ./imgsrv:/htapps/babel/imgsrv
       - ./pt:/htapps/babel/pt
       - ./ssd:/htapps/babel/ssd

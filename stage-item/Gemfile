@@ -9,7 +9,7 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 gem "marc", "~> 1.2"
 gem "faraday", "~> 2.7"
 gem "faraday-follow_redirects"
-gem "ht-pairtree", git: "../../ht-pairtree"
+gem "ht-pairtree", git: "../ht-pairtree"
 gem "mysql2"
 gem "sequel"
 

@@ -9,10 +9,10 @@ require "sequel"
 require "tempfile"
 
 # The parent of babel-local-dev where all the HathiTrust repos are checked out
-HTDEV_ROOT = ENV["HTDEV_ROOT"] || File.realpath(File.join(__dir__,"..",".."))
+HTDEV_ROOT = ENV["HTDEV_ROOT"] || File.realpath(File.join(__dir__,".."))
 
-METADATA_ROOT = ENV["METADATA_ROOT"] || File.join(HTDEV_ROOT,"imgsrv-sample-data","metadata")
-SDRDATAROOT = ENV["SDRDATAROOT"] || File.join(HTDEV_ROOT,"imgsrv-sample-data","sdr1")
+METADATA_ROOT = ENV["METADATA_ROOT"] || File.join(HTDEV_ROOT,"sample-data","metadata")
+SDRDATAROOT = ENV["SDRDATAROOT"] || File.join(HTDEV_ROOT,"sample-data","sdr1")
 CATALOG_BASE = ENV["CATALOG_BASE"] || "https://catalog.hathitrust.org"
 MYSQL_URL = ENV["MYSQL_URL"] || "mysql2://mdp-admin:mdp-admin@127.0.0.1:3307/ht"
 CATALOG_SOLR = ENV["CATALOG_SOLR"] || "http://localhost:9033/solr/catalog"

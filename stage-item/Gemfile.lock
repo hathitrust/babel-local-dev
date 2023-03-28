@@ -1,6 +1,6 @@
 GIT
-  remote: ../../ht-pairtree
-  revision: 7021c21c07d7cc018f23b3dfd7f3f3954a109f57
+  remote: ../ht-pairtree
+  revision: b03be8927efc93a3c8c28a300b4927b24972daa2
   specs:
     ht-pairtree (0.1.0)
       rpairtree

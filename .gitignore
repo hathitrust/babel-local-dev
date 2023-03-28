@@ -2,3 +2,18 @@ vendor
 .bundle
 stage-item/*.xml
 stage-item/*.zip
+
+# other repositories
+
+catalog/
+common/
+hathitrust_catalog_indexer/
+ht-pairtree/
+imgsrv-sample-data/
+imgsrv/
+lss_solr_configs/
+pt/
+sample-data/
+slip/
+ssd/
+

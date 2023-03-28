@@ -13,9 +13,9 @@ RUN a2enmod proxy_fcgi
 RUN a2enmod proxy_http
 RUN a2enmod cgi
 
-COPY ./docker/000-default.conf /etc/apache2/sites-enabled
+COPY 000-default.conf /etc/apache2/sites-enabled
 STOPSIGNAL SIGWINCH
 
-COPY docker/apache.sh /
+COPY apache.sh /
 RUN chmod +x /apache.sh
 ENTRYPOINT ["/apache.sh"]
