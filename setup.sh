@@ -5,7 +5,7 @@ Checking out into $PWD
 
 What should the git URL be?
  [1] HTTPS: https://github.com/hathitrust (default)
- [2] SSH:   $GIT_BASE
+ [2] SSH:   git@github.com:hathitrust
 
 Enter 1, 2, or ctrl-C to abort.
 EOT
@@ -15,11 +15,8 @@ read proto
 GIT_BASE="https://github.com/hathitrust"
 
 if [[ "$proto" == "2" ]]; then
-  GIT_BASE="$GIT_BASE"
+  GIT_BASE="git@github.com:hathitrust"
 fi
-
-echo $GIT_BASE
-exit
 
 git clone --recurse-submodules -b DEV-667-remove-docker-compose $GIT_BASE/imgsrv
 git clone --recurse-submodules $GIT_BASE/imgsrv-sample-data ./sample-data
