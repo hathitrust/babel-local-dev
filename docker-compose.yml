@@ -17,9 +17,12 @@ services:
 
   imgsrv:
     build: ./docker/babel-base
+    user: ${CURRENT_USER}
     image: hathitrust-babel-base
     volumes:
       - ./imgsrv:/htapps/babel/imgsrv
+      - ./logs:/htapps/babel/logs
+      - ./cache:/htapps/babel/cache
       - "./sample-data/sdr1:/sdr1"
       - "./sample-data/etc:/htapps/babel/etc"
       - "./sample-data/watermarks:/htapps/babel/watermarks"
@@ -30,6 +33,7 @@ services:
       - HT_DEV=docker
       - REMOTE_ADDR=127.0.0.1
       - HTTP_HOST=127.0.0.1
+      - APACHE_LOG_DIR=/tmp
     depends_on:
       - mysql-sdr
       - solr-sdr-catalog
@@ -39,9 +43,12 @@ services:
 
   apache-cgi:
     build: ./docker/apache-cgi
+    user: ${CURRENT_USER}
     volumes:
       - "./docker/apache-cgi/000-default.conf:/etc/apache2/sites-enabled/000-default.conf"
       - ./imgsrv:/htapps/babel/imgsrv
+      - ./logs:/htapps/babel/logs
+      - ./cache:/htapps/babel/cache
       - ./pt:/htapps/babel/pt
       - ./ssd:/htapps/babel/ssd
       - ./common:/htapps/babel/common
@@ -106,10 +113,11 @@ services:
   slip:
     build: ./slip
     image: hathitrust-slip
+    user: ${CURRENT_USER}
     volumes:
       - ./slip:/htapps/babel/slip
       # this is where docs-j saves output
-      - ./slip/sample:/htapps/babel/logs/tmp
+      - ./logs:/htapps/babel/logs
       - "./sample-data/sdr1:/sdr1"
       - "./sample-data/etc:/htapps/babel/etc"
       - "./sample-data:/tmp/sample-data"
@@ -126,6 +134,7 @@ services:
 
   traject:
     image: ghcr.io/hathitrust/catalog-indexer-unstable
+    user: ${CURRENT_USER}
     environment:
       - SOLR_URL=http://solr-sdr-catalog:9033/solr/catalog
       - redirect_file=/dev/null

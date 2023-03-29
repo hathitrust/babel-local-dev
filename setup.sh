@@ -29,6 +29,8 @@ git clone --recurse-submodules $GIT_BASE/slip
 git clone --recurse-submodules -b DEV-661-docker $GIT_BASE/lss_solr_configs
 
 echo "CURRENT_USER=$(id -u):$(id -g)" >> .env
+echo "APACHE_RUN_USER=$(id -u)" >> .env
+echo "APACHE_RUN_GROUP=$(id -g)" >> .env
 
 # Do we need these separately?
 # git clone $GIT_BASE/mdp-lib.git
