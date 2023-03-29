@@ -28,15 +28,7 @@ git clone --recurse-submodules $GIT_BASE/hathitrust_catalog_indexer
 git clone --recurse-submodules $GIT_BASE/slip
 git clone --recurse-submodules -b DEV-661-docker $GIT_BASE/lss_solr_configs
 
-# Directories the web server needs to write to under /htapps/babel
-mkdir cache logs
-chmod a+w cache logs
-
-# Directory solr needs to write to
-chmod a+w lss_solr_configs/lss-dev/core-x/data
-
-# Not yet covered in the apache config although maybe it was before
-# git clone $GIT_BASE/pt.git
+echo "CURRENT_USER=$(id -u):$(id -g)" >> .env
 
 # Do we need these separately?
 # git clone $GIT_BASE/mdp-lib.git

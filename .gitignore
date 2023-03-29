@@ -1,5 +1,6 @@
 vendor
 .bundle
+.env
 stage-item/*.xml
 stage-item/*.zip
 
@@ -16,4 +17,5 @@ pt/
 sample-data/
 slip/
 ssd/
-
+logs/
+cache/
