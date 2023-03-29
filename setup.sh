@@ -25,7 +25,6 @@ git clone --recurse-submodules $GIT_BASE/common
 git clone --recurse-submodules -b DEV-663-docker $GIT_BASE/pt
 git clone --recurse-submodules -b DEV-663-docker $GIT_BASE/ssd
 git clone --recurse-submodules $GIT_BASE/hathitrust_catalog_indexer
-git clone --recurse-submodules -b DEV-667-stage-item $GIT_BASE/ht-pairtree
 git clone --recurse-submodules -b DEV-661-docker $GIT_BASE/slip
 git clone --recurse-submodules -b DEV-661-docker $GIT_BASE/lss_solr_configs
 
