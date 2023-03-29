@@ -18,14 +18,14 @@ if [[ "$proto" == "2" ]]; then
   GIT_BASE="git@github.com:hathitrust"
 fi
 
-git clone --recurse-submodules -b DEV-667-remove-docker-compose $GIT_BASE/imgsrv
+git clone --recurse-submodules $GIT_BASE/imgsrv
 git clone --recurse-submodules $GIT_BASE/imgsrv-sample-data ./sample-data
 git clone --recurse-submodules $GIT_BASE/catalog
 git clone --recurse-submodules $GIT_BASE/common
 git clone --recurse-submodules -b DEV-663-docker $GIT_BASE/pt
 git clone --recurse-submodules -b DEV-663-docker $GIT_BASE/ssd
 git clone --recurse-submodules $GIT_BASE/hathitrust_catalog_indexer
-git clone --recurse-submodules -b DEV-661-docker $GIT_BASE/slip
+git clone --recurse-submodules $GIT_BASE/slip
 git clone --recurse-submodules -b DEV-661-docker $GIT_BASE/lss_solr_configs
 
 # Directories the web server needs to write to under /htapps/babel
