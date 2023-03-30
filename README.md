@@ -106,6 +106,10 @@ bundle install
 bundle exec ruby stage_item.rb uc2.ark:/13960/t4mk66f1d ark+=13960=t4mk66f1d.zip ark+=13960=t4mk66f1d.mets.xml
 ```
 
+To enhance later: The zip and METS must be named as they are in the actual
+repository -- if you name them "foo.zip" or "foo.xml" they will not be renamed,
+and full-text indexing and PageTurner will not be able to find the item.
+
 ## TODO
 
 - [ ] adding `pt` requires filling out more of the `ht_web` tables (namely `mb_*`)

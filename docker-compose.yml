@@ -116,8 +116,9 @@ services:
     user: ${CURRENT_USER}
     volumes:
       - ./slip:/htapps/babel/slip
-      # this is where docs-j saves output
       - ./logs:/htapps/babel/logs
+      # this is where docs-j saves output
+      - ./slip/sample:/htapps/babel/logs/tmp
       - "./sample-data/sdr1:/sdr1"
       - "./sample-data/etc:/htapps/babel/etc"
       - "./sample-data:/tmp/sample-data"
