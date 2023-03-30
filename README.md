@@ -113,5 +113,7 @@ and full-text indexing and PageTurner will not be able to find the item.
 ## TODO
 
 - [ ] add `mb` and `ls`
+- [ ] ensure database user can write to relevant tables
+- [ ] link to documentation for important tasks - e.g. running apps under debugging, updating css/js, etc
 - [ ] easy mechanism to generate placeholder volumes in `imgsrv-sample-data` that correspond to the records in the catalog
 - [ ] make it easier to fetch real volumes
