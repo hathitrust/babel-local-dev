@@ -46,8 +46,9 @@ In your browser:
 * catalog solr: `http://localhost:9033`
 * full-text solr: `http://localhost:8983`
 
-imgsrv:
+PageZTurner & imgsrv:
 
+* `http://localhost:8888/cgi/pt?id=test.pd_open`
 * `http://localhost:8888/cgi/imgsrv/cover?id=test.pd_open`
 * `http://localhost:8888/cgi/imgsrv/image?id=test.pd_open&seq=1`
 * `http://localhost:8888/cgi/imgsrv/html?id=test.pd_open&seq=1`
@@ -63,10 +64,11 @@ mysql -h 127.0.0.1 -p 3307 -u mdp-admin -p
 Huzzah!
 
 Not yet configured:
-* `http://localhost:8888/cgi/pt?id=test.pd_open`
 * `http://localhost:8888/cgi/mb`
+* `http://localhost:8888/cgi/ls`
 * `http://localhost:8888/cgi/whoami`
 * `http://localhost:8888/cgi/ping`
+* etc
 
 ## How this works (for now)
 
