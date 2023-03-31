@@ -134,7 +134,7 @@ services:
       - indexing
 
   traject:
-    image: ghcr.io/hathitrust/catalog-indexer-unstable
+    build: ./hathitrust_catalog_indexer
     user: ${CURRENT_USER}
     environment:
       - SOLR_URL=http://solr-sdr-catalog:9033/solr/catalog
