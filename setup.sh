@@ -34,6 +34,7 @@ git clone --recurse-submodules $GIT_BASE/mdp-lib
 git clone --recurse-submodules $GIT_BASE/plack-lib
 git clone --recurse-submodules $GIT_BASE/slip-lib
 git clone --recurse-submodules $GIT_BASE/mdp-web
+git clone --recurse-submodules $GIT_BASE/ptsearch-solr
 
 echo "CURRENT_USER=$(id -u):$(id -g)" >> .env
 echo "APACHE_RUN_USER=$(id -u)" >> .env
