@@ -26,6 +26,7 @@ git clone --recurse-submodules $GIT_BASE/pt
 git clone --recurse-submodules $GIT_BASE/ssd
 git clone --recurse-submodules $GIT_BASE/hathitrust_catalog_indexer
 git clone --recurse-submodules $GIT_BASE/slip
+git clone --recurse-submodules $GIT_BASE/ptsearch-solr
 git clone --recurse-submodules -b DEV-661-docker $GIT_BASE/lss_solr_configs
 
 echo "CURRENT_USER=$(id -u):$(id -g)" >> .env

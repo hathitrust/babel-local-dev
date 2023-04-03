@@ -122,6 +122,7 @@ class StageItem
     puts "📕 Indexing metadata..."
 
     catalog_utils_sh  = File.join(HTDEV_ROOT,"hathitrust_catalog_indexer","bin","utils.sh")
+    system("docker-compose run traject bundle install")
     system("docker-compose run traject bin/index_file metadata/#{file}")
     system("bash -c 'source #{catalog_utils_sh}; solr_url; commit'")
   end

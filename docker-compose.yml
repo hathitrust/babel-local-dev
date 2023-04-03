@@ -62,6 +62,7 @@ services:
     depends_on:
       - mysql-sdr
       - solr-sdr-catalog
+      - solr-ptsearch
     ports:
       - "41028:41028"
 
@@ -92,6 +93,11 @@ services:
       - ./lss_solr_configs:/opt/lss_solr_configs
       - ./lss_solr_configs/lib:/opt/solr/server/solr/lib
       - ./logs/solr:/opt/solr/server/logs
+
+  solr-ptsearch:
+    build: ./ptsearch-solr
+    ports:
+      - "8984:8983"
 
   mysql-sdr:
     image: ghcr.io/hathitrust/db-image:latest
@@ -135,7 +141,6 @@ services:
 
   traject:
     build: ./hathitrust_catalog_indexer
-    user: ${CURRENT_USER}
     environment:
       - SOLR_URL=http://solr-sdr-catalog:9033/solr/catalog
       - redirect_file=/dev/null
@@ -145,7 +150,12 @@ services:
       - solr-sdr-catalog
     volumes:
       - "./sample-data/metadata:/app/metadata"
+      - "./hathitrust_catalog_indexer:/app"
+      - gem_cache:/gems
     profiles:
       - indexing
 
   # todo: ingest, bound to sample-data
+
+volumes:
+  gem_cache:
