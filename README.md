@@ -89,21 +89,18 @@ Running the stage item script requires a Ruby runtime. It will automate putting
 the item in the appropriate location under `imgsrv-sample-data`, fetch the
 bibliographic data, and extract and index the full text.
 
-First make sure all the dependencies are running:
+`setup.sh` will attempt to install the Ruby library dependencies for `stage-item`.
+After it finishes, make sure all the solr and database services are running:
 
 ```bash
 docker-compose build
 docker-compose up
 ```
 
-Then, install dependencies for the `stage-item` script and run it with the
-downloaded zip and METS:
+Then, run `stage-item` with the downloaded zip and METS:
 
 ```bash
-docker-compose run traject bundle install
 cd stage-item
-bundle config set --local path 'vendor/bundle'
-bundle install
 bundle exec ruby stage_item.rb uc2.ark:/13960/t4mk66f1d ark+=13960=t4mk66f1d.zip ark+=13960=t4mk66f1d.mets.xml
 ```
 

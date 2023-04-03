@@ -54,6 +54,7 @@ services:
       - ./ping:/htapps/babel/ping
       - ./mb:/htapps/babel/mb
       - ./ls:/htapps/babel/ls
+      - ./ls/lib/Config/docker-local.conf:/htapps/babel/ls/lib/Config/local.conf
       - ./common:/htapps/babel/common
       - ./mdp-lib:/htapps/babel/mdp-lib
       - ./slip-lib:/htapps/babel/slip-lib
@@ -68,6 +69,7 @@ services:
     depends_on:
       - mysql-sdr
       - solr-sdr-catalog
+      - solr-ptsearch
     ports:
       - "41028:41028"
 
@@ -98,6 +100,11 @@ services:
       - ./lss_solr_configs:/opt/lss_solr_configs
       - ./lss_solr_configs/lib:/opt/solr/server/solr/lib
       - ./logs/solr:/opt/solr/server/logs
+
+  solr-ptsearch:
+    build: ./ptsearch-solr
+    ports:
+      - "8984:8983"
 
   mysql-sdr:
     image: ghcr.io/hathitrust/db-image:latest
