@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
   imagemagick \
   libapache-session-perl \
   libconfig-tiny-perl \
+  libdata-page-perl \
   libdate-calc-perl \
   libdate-manip-perl \
   libdbd-mysql-perl \
@@ -36,6 +37,7 @@ RUN apt-get update && apt-get install -y \
   libtry-tiny-perl \
   libxml-libxml-perl \
   libxml-libxslt-perl \
+  libyaml-libyaml-perl \
   netcat-traditional \
   netpbm \
   perl \
@@ -55,7 +57,7 @@ RUN cpanm --notest \
   UUID::Tiny \
   YAML::Any \
   Data::Page
-  
+
 WORKDIR /htapps/babel/geoip
 ADD --chmod=644 https://github.com/maxmind/MaxMind-DB/blob/main/test-data/GeoIP2-Country-Test.mmdb?raw=true GeoIP2-Country.mmdb
 

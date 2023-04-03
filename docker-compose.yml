@@ -54,6 +54,7 @@ services:
       - ./ping:/htapps/babel/ping
       - ./mb:/htapps/babel/mb
       - ./ls:/htapps/babel/ls
+      - ./ls/lib/Config/global-dev.conf:/htapps/babel/ls/lib/Config/global.conf
       - ./common:/htapps/babel/common
       - ./mdp-lib:/htapps/babel/mdp-lib
       - ./slip-lib:/htapps/babel/slip-lib
