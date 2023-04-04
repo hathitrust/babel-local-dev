@@ -23,10 +23,17 @@ git clone --recurse-submodules $GIT_BASE/imgsrv-sample-data ./sample-data
 git clone --recurse-submodules $GIT_BASE/catalog
 git clone --recurse-submodules $GIT_BASE/common
 git clone --recurse-submodules $GIT_BASE/pt
+git clone --recurse-submodules $GIT_BASE/mb
+git clone --recurse-submodules $GIT_BASE/ls
+git clone --recurse-submodules $GIT_BASE/ping
 git clone --recurse-submodules $GIT_BASE/ssd
 git clone --recurse-submodules $GIT_BASE/hathitrust_catalog_indexer
 git clone --recurse-submodules $GIT_BASE/slip
 git clone --recurse-submodules $GIT_BASE/lss_solr_configs
+git clone --recurse-submodules $GIT_BASE/mdp-lib
+git clone --recurse-submodules $GIT_BASE/plack-lib
+git clone --recurse-submodules $GIT_BASE/slip-lib
+git clone --recurse-submodules $GIT_BASE/mdp-web
 
 echo "CURRENT_USER=$(id -u):$(id -g)" >> .env
 echo "APACHE_RUN_USER=$(id -u)" >> .env
