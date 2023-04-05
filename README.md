@@ -100,6 +100,7 @@ Then, install dependencies for the `stage-item` script and run it with the
 downloaded zip and METS:
 
 ```bash
+docker-compose run traject bundle install
 cd stage-item
 bundle config set --local path 'vendor/bundle'
 bundle install
