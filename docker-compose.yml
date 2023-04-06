@@ -51,7 +51,13 @@ services:
       - ./cache:/htapps/babel/cache
       - ./pt:/htapps/babel/pt
       - ./ssd:/htapps/babel/ssd
+      - ./ping:/htapps/babel/ping
+      - ./mb:/htapps/babel/mb
+      - ./ls:/htapps/babel/ls
       - ./common:/htapps/babel/common
+      - ./mdp-lib:/htapps/babel/mdp-lib
+      - ./slip-lib:/htapps/babel/slip-lib
+      - ./plack-lib:/htapps/babel/plack-lib
       - "./sample-data/sdr1:/sdr1"
       - "./sample-data/etc:/htapps/babel/etc"
       - "./sample-data/watermarks:/htapps/babel/watermarks"
@@ -98,6 +104,7 @@ services:
     volumes:
       - ./slip/etc/sql/100_slip.sql:/docker-entrypoint-initdb.d/100_slip.sql
       - ./catalog/docker/vufind.sql:/docker-entrypoint-initdb.d/101_vufind.sql
+      - ./mb/etc/sql/999_mb.sql:/docker-entrypoint-initdb.d/999_mb.sql
     ports:
       - "3307:3306"
 

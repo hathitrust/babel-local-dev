@@ -17,5 +17,12 @@ pt/
 sample-data/
 slip/
 ssd/
+ping/
+mb/
+ls/
+mdp-lib/
+plack-lib/
+slip-lib/
+mdp-web/
 logs/
 cache/
