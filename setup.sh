@@ -6,17 +6,22 @@ Checking out into $PWD
 What should the git URL be?
  [1] HTTPS: https://github.com/hathitrust (default)
  [2] SSH:   git@github.com:hathitrust
-
-Enter 1, 2, or ctrl-C to abort.
 EOT
 
-read proto
+echo -n "Your choice? [1]: "
+
+read -N 1 proto
 
 GIT_BASE="https://github.com/hathitrust"
 
 if [[ "$proto" == "2" ]]; then
   GIT_BASE="git@github.com:hathitrust"
 fi
+
+echo
+echo
+echo Cloning repositories via $GIT_BASE...
+echo
 
 git clone --recurse-submodules $GIT_BASE/imgsrv
 git clone --recurse-submodules $GIT_BASE/imgsrv-sample-data ./sample-data
