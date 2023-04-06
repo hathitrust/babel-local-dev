@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
+
+# gem "rails"
+
+gem "marc", "~> 1.2"
+gem "faraday", "~> 2.7"
+gem "faraday-follow_redirects"
+gem "ht-pairtree", github: "hathitrust/ht-pairtree", tag: 'v0.1.0'
+gem "mysql2"
+gem "sequel"
+
+group :development do
+  gem "pry"
+  gem "pry-byebug"
+end
