@@ -44,8 +44,3 @@ git clone --recurse-submodules $GIT_BASE/ptsearch-solr
 echo "CURRENT_USER=$(id -u):$(id -g)" >> .env
 echo "APACHE_RUN_USER=$(id -u)" >> .env
 echo "APACHE_RUN_GROUP=$(id -g)" >> .env
-
-# Do we need these separately?
-# git clone $GIT_BASE/mdp-lib.git
-# git clone $GIT_BASE/slip-lib.git
-# git clone $GIT_BASE/plack-lib.git
