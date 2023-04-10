@@ -55,8 +55,7 @@ RUN cpanm --notest \
   IP::Geolocation::MMDB \
   UUID \
   UUID::Tiny \
-  YAML::Any \
-  Data::Page
+  YAML::Any
 
 WORKDIR /htapps/babel/geoip
 ADD --chmod=644 https://github.com/maxmind/MaxMind-DB/blob/main/test-data/GeoIP2-Country-Test.mmdb?raw=true GeoIP2-Country.mmdb
