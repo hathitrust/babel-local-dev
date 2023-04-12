@@ -88,6 +88,8 @@ services:
     image: ghcr.io/hathitrust/catalog-solr-sample
     ports:
       - "9033:9033"
+    volumes:
+      - solr_sdr_catalog:/var/solr
 
   solr-lss-dev:
     image: solr:6
@@ -112,6 +114,7 @@ services:
       - ./slip/etc/sql/100_slip.sql:/docker-entrypoint-initdb.d/100_slip.sql
       - ./catalog/docker/vufind.sql:/docker-entrypoint-initdb.d/101_vufind.sql
       - ./mb/etc/sql/999_mb.sql:/docker-entrypoint-initdb.d/999_mb.sql
+      - mysql_sdr_data:/var/lib/mysql
     ports:
       - "3307:3306"
 
@@ -167,3 +170,5 @@ services:
 
 volumes:
   gem_cache:
+  mysql_sdr_data:
+  solr_sdr_catalog:
