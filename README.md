@@ -111,10 +111,18 @@ Note that the zip and METS must be named as they are in the actual
 repository -- if you name them "foo.zip" or "foo.xml" they will not be renamed,
 and full-text indexing and PageTurner will not be able to find the item.
 
+## Resetting / updating database & solr schema
+
+If you need to reset or update the database or solr schema, you will need to
+make sure the persistent volumes for them are removed so that when you restart
+the containers they will get a fresh copy of the schema.
+
+```bash
+docker-compose down -v
+```
+
 ## TODO
 
-- [ ] add `mb` and `ls`
-- [ ] ensure database user can write to relevant tables
 - [ ] link to documentation for important tasks - e.g. running apps under debugging, updating css/js, etc
 - [ ] easy mechanism to generate placeholder volumes in `imgsrv-sample-data` that correspond to the records in the catalog
 - [ ] make it easier to fetch real volumes
