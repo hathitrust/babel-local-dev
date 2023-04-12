@@ -80,7 +80,7 @@ RUN ln -s /htapps/babel /htapps/test.babel
 RUN cd /htapps/babel
 
 COPY . /htapps/babel/imgsrv
-RUN ln -s imgsrv/vendor/common-lib/lib ../mdp-lib
-RUN ln -s imgsrv/web/common-web ../mdp-web
+# RUN ln -s imgsrv/vendor/common-lib/lib ../mdp-lib
+# RUN ln -s imgsrv/web/common-web ../mdp-web
 
 CMD ["/htapps/babel/imgsrv/bin/startup_imgsrv"]
