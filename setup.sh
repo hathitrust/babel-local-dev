@@ -27,7 +27,7 @@ git clone --recurse-submodules $GIT_BASE/imgsrv
 git clone --recurse-submodules $GIT_BASE/imgsrv-sample-data ./sample-data
 git clone --recurse-submodules $GIT_BASE/catalog
 git clone --recurse-submodules $GIT_BASE/common
-git clone --recurse-submodules $GIT_BASE/pt
+git clone --recurse-submodules -b DEV-686-ptsearch-redirects $GIT_BASE/pt
 git clone --recurse-submodules $GIT_BASE/mb
 git clone --recurse-submodules $GIT_BASE/ls
 git clone --recurse-submodules $GIT_BASE/ping
