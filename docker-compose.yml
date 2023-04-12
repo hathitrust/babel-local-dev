@@ -21,6 +21,10 @@ services:
     image: hathitrust-babel-base
     volumes:
       - ./imgsrv:/htapps/babel/imgsrv
+      - ./mdp-lib:/htapps/babel/mdp-lib
+      - ./slip-lib:/htapps/babel/slip-lib
+      - ./plack-lib:/htapps/babel/plack-lib
+      - ./mdp-web:/htapps/babel/mdp-web
       - ./logs:/htapps/babel/logs
       - ./cache:/htapps/babel/cache
       - "./sample-data/sdr1:/sdr1"
@@ -59,6 +63,7 @@ services:
       - ./mdp-lib:/htapps/babel/mdp-lib
       - ./slip-lib:/htapps/babel/slip-lib
       - ./plack-lib:/htapps/babel/plack-lib
+      - ./mdp-web:/htapps/babel/mdp-web
       - "./sample-data/sdr1:/sdr1"
       - "./sample-data/etc:/htapps/babel/etc"
       - "./sample-data/watermarks:/htapps/babel/watermarks"
