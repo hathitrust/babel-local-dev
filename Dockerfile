@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bookworm AS babel-base
 
 # # does not work bookworm - evaluate if it's needed
 # RUN sed -i 's/main.*/main contrib non-free/' /etc/apt/sources.list
@@ -68,8 +68,6 @@ RUN ln -s /usr/bin/convert /l/local/bin/convert
 RUN ln -s /usr/bin/plackup /l/local/bin/plackup
 RUN /bin/bash -c 'for cmd in pamflip jpegtopnm tifftopnm bmptopnm pngtopam ppmmake pamcomp pnmscalefixed pamscale pnmrotate pnmpad pamtotiff pnmtotiff pnmtojpeg pamrgbatopng ppmtopgm pnmtopng; do ln -s /usr/bin/$cmd /l/local/bin; done'
 
-WORKDIR /htapps/babel/imgsrv
-
 RUN mkdir /htapps/babel/cache
 RUN chmod 4777 /htapps/babel/cache
 
@@ -79,8 +77,31 @@ RUN chmod 4777 /htapps/babel/logs
 RUN ln -s /htapps/babel /htapps/test.babel
 RUN cd /htapps/babel
 
-COPY . /htapps/babel/imgsrv
-# RUN ln -s imgsrv/vendor/common-lib/lib ../mdp-lib
-# RUN ln -s imgsrv/web/common-web ../mdp-web
+WORKDIR /htapps/babel
 
+FROM babel-base AS imgsrv-fcgi
+
+WORKDIR /htapps/babel/imgsrv
 CMD ["/htapps/babel/imgsrv/bin/startup_imgsrv"]
+
+FROM babel-base AS apache-cgi
+
+RUN apt-get -y install apache2 libapache2-mod-fcgid
+
+RUN a2dissite '*'
+RUN a2disconf other-vhosts-access-log
+RUN a2dismod 'mpm_*'
+RUN a2enmod headers \ 
+            mpm_prefork \
+            rewrite \
+            proxy \
+            proxy_fcgi \
+            proxy_http \
+            cgi
+
+COPY apache-cgi/000-default.conf /etc/apache2/sites-enabled
+STOPSIGNAL SIGWINCH
+
+COPY apache-cgi/apache.sh /
+RUN chmod +x /apache.sh
+ENTRYPOINT ["/apache.sh"]
