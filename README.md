@@ -108,6 +108,30 @@ Note that the zip and METS must be named as they are in the actual
 repository -- if you name them "foo.zip" or "foo.xml" they will not be renamed,
 and full-text indexing and PageTurner will not be able to find the item.
 
+## Fetching an Item
+
+To batch download public domain items using the Data API:
+
+* copy `stage_item/.htd.ini.example` to `stage_item/.htd.ini`
+* request a [Data API Key](https://babel.hathitrust.org/cgi/kgs)
+* update `.htd.ini` with the access and secret keys
+
+You can then fetch an item with
+
+```bash
+# you've already done the stage-item configuration
+cd stage_item
+
+# pass htids as arguments; the --stage option will generate a bash script 
+# that will stage the downloaded items
+bundle exec ruby fetch_item.rb --stage /tmp/run.sh loc.ark:/13960/t05x2fk69 loc.ark:/13960/t05x2js29
+sh /tmp/run.sh
+
+# if you have a filenaming containing a list of identifiers:
+bundle exec ruby fetch_item.rb --stage /tmp/run.sh --input /tmp/htid-list.txt
+sh /tmp/run.sh
+```
+
 ## Resetting / updating database & solr schema
 
 If you need to reset or update the database or solr schema, you will need to
