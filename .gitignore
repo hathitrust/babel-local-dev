@@ -1,6 +1,7 @@
 vendor
 .bundle
 .env
+.htd.ini
 stage-item/*.xml
 stage-item/*.zip
 
