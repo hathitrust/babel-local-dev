@@ -19,22 +19,25 @@ CATALOG_SOLR = ENV["CATALOG_SOLR"] || "http://localhost:9033/solr/catalog"
 LSS_SOLR = ENV["LSS_SOLR"] || "http://localhost:8983/solr/core-x"
 
 class StageItem
-  attr_reader :htid, :namespace, :objid, :zip, :mets, :pt
+  attr_reader :htid, :namespace, :objid, :pt_objid, :zip, :mets, :pt
 
   def self.main
-    usage unless ARGV.length == 3
+    usage unless ARGV.length >= 1
 
     StageItem.new(*ARGV).run 
   end
 
-  def initialize(htid, zip, mets)
+  def initialize(htid, zip=nil, mets=nil)
     @htid = htid
     (@namespace, @objid) = htid.split(".",2)
-    @zip = zip
-    @mets = mets
+    @pt_objid = Pairtree::Identifier.encode(@objid)
+    @zip = zip || "#{pt_objid}.zip"
+    @mets = mets || "#{pt_objid}.mets.xml"
 
-    self.class.usage unless [@zip, @mets].all? { |f| File.exist?(f) } &&
-      @zip.match?(/\.zip$/) && @mets.match?(/\.xml$/)
+    self.class.usage unless @zip.match?(/\.zip$/) && @mets.match?(/\.xml$/)
+
+    self.class.usage("Can't find #{@zip}") unless File.exist?(@zip)
+    self.class.usage("Can't find #{@mets}") unless File.exist?(@mets)
 
     @pt = HathiTrust::Pairtree.new(root: File.join(SDRDATAROOT,'obj'))
   end
@@ -58,7 +61,8 @@ class StageItem
     repo_path = pt.path_for(htid)
 
     puts("↪️ Copying zip and mets to repo #{repo_path}\n")
-    FileUtils.cp([zip,mets],repo_path)
+    FileUtils.cp(zip,File.join(repo_path,"#{pt_objid}.zip"))
+    FileUtils.cp(mets,File.join(repo_path,"#{pt_objid}.mets.xml"))
   end
 
   def fetch_metadata(tempfile)
@@ -122,14 +126,14 @@ class StageItem
     puts "📕 Indexing metadata..."
 
     catalog_utils_sh  = File.join(HTDEV_ROOT,"hathitrust_catalog_indexer","bin","utils.sh")
-    system("docker-compose run traject bin/index_file metadata/#{file}")
+    system("docker-compose run --rm traject bin/index_file metadata/#{file}")
     system("bash -c 'source #{catalog_utils_sh}; solr_url; commit'")
   end
 
   def index_full_text
     puts "📖 Indexing full text..."
 
-    system("docker-compose run slip index/docs-j -r11 -I#{htid}")
+    system("docker-compose run --rm slip index/docs-j -r11 -I#{htid}")
 
     slip_sample_dir = File.join(HTDEV_ROOT,"slip","sample")
     load_into_solr_sh = File.join(HTDEV_ROOT,"slip","sample","load_into_solr.sh")
@@ -138,17 +142,19 @@ class StageItem
     system("bash #{slip_sample_dir}/load_into_solr.sh #{slip_sample_dir}/#{pt_objid}*.solr.xml")
   end
 
-  def self.usage
+  def self.usage(err="")
+    STDERR.puts(err)
     STDERR.puts <<~EOT
-      Usage: $0 namespace.barcode some_item.zip some_item.mets.xml
+      Usage: $0 namespace.barcode [some_item.zip some_item.mets.xml]
 
-      where htid is something like "namespace.objid".
-
-      Stages an item into the sample repository from a given zip and XML file. It:
-      * fetches metadata from the catalog
-      * indexes this into the sample catalog
-      * populates the rights_current and slip_rights table
-      * indexes the full text
+      Stages an item into the sample repository from a given zip and XML file.
+      If the ZIP and METS filenames are not provided, they will be generated from the given HathiTrust item ID.
+      
+      It:
+        * fetches metadata from the catalog
+        * indexes this into the sample catalog
+        * populates the rights_current and slip_rights table
+        * indexes the full text
     EOT
 
     exit 1

@@ -89,21 +89,18 @@ Running the stage item script requires a Ruby runtime. It will automate putting
 the item in the appropriate location under `imgsrv-sample-data`, fetch the
 bibliographic data, and extract and index the full text.
 
-First make sure all the dependencies are running:
+`setup.sh` will attempt to install the Ruby library dependencies for `stage-item`.
+After it finishes, make sure all the solr and database services are running:
 
 ```bash
 docker-compose build
 docker-compose up
 ```
 
-Then, install dependencies for the `stage-item` script and run it with the
-downloaded zip and METS:
+Then, run `stage-item` with the downloaded zip and METS:
 
 ```bash
-docker-compose run traject bundle install
 cd stage-item
-bundle config set --local path 'vendor/bundle'
-bundle install
 bundle exec ruby stage_item.rb uc2.ark:/13960/t4mk66f1d ark+=13960=t4mk66f1d.zip ark+=13960=t4mk66f1d.mets.xml
 ```
 
@@ -111,10 +108,42 @@ Note that the zip and METS must be named as they are in the actual
 repository -- if you name them "foo.zip" or "foo.xml" they will not be renamed,
 and full-text indexing and PageTurner will not be able to find the item.
 
+## Fetching an Item
+
+To batch download public domain items using the Data API:
+
+* copy `stage_item/.htd.ini.example` to `stage_item/.htd.ini`
+* request a [Data API Key](https://babel.hathitrust.org/cgi/kgs)
+* update `.htd.ini` with the access and secret keys
+
+You can then fetch an item with
+
+```bash
+# you've already done the stage-item configuration
+cd stage_item
+
+# pass htids as arguments; the --stage option will generate a bash script 
+# that will stage the downloaded items
+bundle exec ruby fetch_item.rb --stage /tmp/run.sh loc.ark:/13960/t05x2fk69 loc.ark:/13960/t05x2js29
+sh /tmp/run.sh
+
+# if you have a filenaming containing a list of identifiers:
+bundle exec ruby fetch_item.rb --stage /tmp/run.sh --input /tmp/htid-list.txt
+sh /tmp/run.sh
+```
+
+## Resetting / updating database & solr schema
+
+If you need to reset or update the database or solr schema, you will need to
+make sure the persistent volumes for them are removed so that when you restart
+the containers they will get a fresh copy of the schema.
+
+```bash
+docker-compose down -v
+```
+
 ## TODO
 
-- [ ] add `mb` and `ls`
-- [ ] ensure database user can write to relevant tables
 - [ ] link to documentation for important tasks - e.g. running apps under debugging, updating css/js, etc
 - [ ] easy mechanism to generate placeholder volumes in `imgsrv-sample-data` that correspond to the records in the catalog
 - [ ] make it easier to fetch real volumes

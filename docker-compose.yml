@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./docker/nginx-default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx-default.conf:/etc/nginx/conf.d/default.conf
       - ./catalog:/app
       - ./common:/app/common-dev
     depends_on:
@@ -16,11 +16,17 @@ services:
       - apache-cgi
 
   imgsrv:
-    build: ./docker/babel-base
+    build:
+      context: .
+      target: imgsrv-fcgi
     user: ${CURRENT_USER}
-    image: hathitrust-babel-base
+      #    image: hathitrust-babel-base
     volumes:
       - ./imgsrv:/htapps/babel/imgsrv
+      - ./mdp-lib:/htapps/babel/mdp-lib
+      - ./slip-lib:/htapps/babel/slip-lib
+      - ./plack-lib:/htapps/babel/plack-lib
+      - ./mdp-web:/htapps/babel/mdp-web
       - ./logs:/htapps/babel/logs
       - ./cache:/htapps/babel/cache
       - "./sample-data/sdr1:/sdr1"
@@ -42,10 +48,12 @@ services:
     command: bash -c "/htapps/babel/imgsrv/bin/startup_imgsrv"
 
   apache-cgi:
-    build: ./docker/apache-cgi
+    build:
+      context: .
+      target: apache-cgi
     user: ${CURRENT_USER}
     volumes:
-      - "./docker/apache-cgi/000-default.conf:/etc/apache2/sites-enabled/000-default.conf"
+      - "./apache-cgi/000-default.conf:/etc/apache2/sites-enabled/000-default.conf"
       - ./imgsrv:/htapps/babel/imgsrv
       - ./logs:/htapps/babel/logs
       - ./cache:/htapps/babel/cache
@@ -53,11 +61,14 @@ services:
       - ./ssd:/htapps/babel/ssd
       - ./ping:/htapps/babel/ping
       - ./mb:/htapps/babel/mb
+      - ./mb/lib/Config/docker-local.conf:/htapps/babel/mb/lib/Config/local.conf
       - ./ls:/htapps/babel/ls
+      - ./ls/lib/Config/docker-local.conf:/htapps/babel/ls/lib/Config/local.conf
       - ./common:/htapps/babel/common
       - ./mdp-lib:/htapps/babel/mdp-lib
       - ./slip-lib:/htapps/babel/slip-lib
       - ./plack-lib:/htapps/babel/plack-lib
+      - ./mdp-web:/htapps/babel/mdp-web
       - "./sample-data/sdr1:/sdr1"
       - "./sample-data/etc:/htapps/babel/etc"
       - "./sample-data/watermarks:/htapps/babel/watermarks"
@@ -68,6 +79,7 @@ services:
     depends_on:
       - mysql-sdr
       - solr-sdr-catalog
+      - solr-ptsearch
     ports:
       - "41028:41028"
 
@@ -86,6 +98,8 @@ services:
     image: ghcr.io/hathitrust/catalog-solr-sample
     ports:
       - "9033:9033"
+    volumes:
+      - solr_sdr_catalog:/var/solr
 
   solr-lss-dev:
     image: solr:6
@@ -99,12 +113,18 @@ services:
       - ./lss_solr_configs/lib:/opt/solr/server/solr/lib
       - ./logs/solr:/opt/solr/server/logs
 
+  solr-ptsearch:
+    build: ./ptsearch-solr
+    ports:
+      - "8984:8983"
+
   mysql-sdr:
     image: ghcr.io/hathitrust/db-image:latest
     volumes:
       - ./slip/etc/sql/100_slip.sql:/docker-entrypoint-initdb.d/100_slip.sql
       - ./catalog/docker/vufind.sql:/docker-entrypoint-initdb.d/101_vufind.sql
       - ./mb/etc/sql/999_mb.sql:/docker-entrypoint-initdb.d/999_mb.sql
+      - mysql_sdr_data:/var/lib/mysql
     ports:
       - "3307:3306"
 
@@ -160,3 +180,5 @@ services:
 
 volumes:
   gem_cache:
+  mysql_sdr_data:
+  solr_sdr_catalog:
