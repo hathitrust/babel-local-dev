@@ -54,6 +54,7 @@ services:
     user: ${CURRENT_USER}
     volumes:
       - "./apache-cgi/000-default.conf:/etc/apache2/sites-enabled/000-default.conf"
+      - "./apache-cgi/auth:/etc/apache2/auth"
       - ./imgsrv:/htapps/babel/imgsrv
       - ./logs:/htapps/babel/logs
       - ./cache:/htapps/babel/cache
@@ -123,6 +124,7 @@ services:
     volumes:
       - ./slip/etc/sql/100_slip.sql:/docker-entrypoint-initdb.d/100_slip.sql
       - ./catalog/docker/vufind.sql:/docker-entrypoint-initdb.d/101_vufind.sql
+      - ./apache-cgi/auth/auth.sql:/docker-entrypoint-initdb.d/102_auth.sql
       - ./mb/etc/sql/999_mb.sql:/docker-entrypoint-initdb.d/999_mb.sql
       - mysql_sdr_data:/var/lib/mysql
     ports:
