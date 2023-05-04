@@ -142,8 +142,15 @@ the containers they will get a fresh copy of the schema.
 docker-compose down -v
 ```
 
+## Authentication
+
+You can simulate various authenticated scenarios by setting environment
+variables in Apache. There is appropriate setup for a variety of scenarios and
+user types in configuration files under `apache-cgi/auth`, and a helper script
+`switch_auth.sh` to allow you to pick a particular scenario and configure the
+local Apache server to use it.
+
 ## TODO
 
 - [ ] link to documentation for important tasks - e.g. running apps under debugging, updating css/js, etc
 - [ ] easy mechanism to generate placeholder volumes in `imgsrv-sample-data` that correspond to the records in the catalog
-- [ ] make it easier to fetch real volumes

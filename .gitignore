@@ -4,6 +4,8 @@ vendor
 .htd.ini
 stage-item/*.xml
 stage-item/*.zip
+apache-cgi/auth/active_auth.conf
+
 
 # other repositories
 
