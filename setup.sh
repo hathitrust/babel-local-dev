@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cat <<EOT
 Checking out into $PWD
@@ -10,7 +10,7 @@ EOT
 
 echo -n "Your choice? [1]: "
 
-read -N 1 proto
+read -n 1 proto
 
 GIT_BASE="https://github.com/hathitrust"
 
