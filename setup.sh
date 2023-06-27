@@ -41,18 +41,25 @@ git clone --recurse-submodules $GIT_BASE/slip-lib
 git clone --recurse-submodules $GIT_BASE/mdp-web
 git clone --recurse-submodules $GIT_BASE/ptsearch-solr
 
-echo "CURRENT_USER=$(id -u):$(id -g)" >> .env
-echo "APACHE_RUN_USER=$(id -u)" >> .env
-echo "APACHE_RUN_GROUP=$(id -g)" >> .env
+echo 
+echo 🍃 Setting up the environment...
+echo 
+
+cat <<EOT | tee .env
+CURRENT_USER="$(id -u):$(id -g)"
+APACHE_RUN_USER="$(id -u)"
+APACHE_RUN_GROUP="$(id -g)"
+BABEL_HOME="$(dirname $(realpath $0))"
+EOT
 
 echo
 echo 💎 Setting up stage_item...
 echo
 
+# TODO configure path inside stage-item so docker compose will work with same prefix
+
 docker-compose run traject bundle install
-cd stage-item
-bundle config set --local path 'vendor/bundle'
-bundle install
+docker-compose run stage-item bundle install
 
 echo
 echo 🎉 Done!

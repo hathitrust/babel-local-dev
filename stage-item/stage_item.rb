@@ -126,14 +126,14 @@ class StageItem
     puts "📕 Indexing metadata..."
 
     catalog_utils_sh  = File.join(HTDEV_ROOT,"hathitrust_catalog_indexer","bin","utils.sh")
-    system("docker-compose run --rm traject bin/index_file metadata/#{file}")
-    system("bash -c 'source #{catalog_utils_sh}; solr_url; commit'")
+    system("docker compose run --rm traject bin/cictl index file metadata/#{file}")
+    system("docker compose run --rm traject bin/cictl solr commit")
   end
 
   def index_full_text
     puts "📖 Indexing full text..."
 
-    system("docker-compose run --rm slip index/docs-j -r11 -I#{htid}")
+    system("docker compose run --rm slip index/docs-j -r11 -I#{htid}")
 
     slip_sample_dir = File.join(HTDEV_ROOT,"slip","sample")
     load_into_solr_sh = File.join(HTDEV_ROOT,"slip","sample","load_into_solr.sh")
