@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-auth_path=$(dirname $(realpath $0))/apache-cgi/auth
+auth_path=$(dirname $(realpath $0))/apache/auth
 
 userdesc() {
   desc=$(head -1 $1)
@@ -42,7 +42,7 @@ echo
 echo -e "\x1B[1;36mUsing auth file \x1B[37m$auth_file\x1B[0m"
 cp -v $auth_file $auth_path/active_auth.conf
 echo -e "\x1B[1;36mReloading Apache configuration\x1Be[0m"
-docker compose exec apache-cgi kill -USR1 1
+docker compose exec apache kill -USR1 1
 
 echo -e "🎉 \x1B[1;36m Done!\x1B[0m"
 

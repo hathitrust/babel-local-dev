@@ -2,25 +2,11 @@ version: '3'
 
 services:
 
-  nginx:
-    image: nginx
-    ports:
-      - "8080:8080"
-    volumes:
-      - ${BABEL_HOME}/nginx/nginx-default.conf:/etc/nginx/conf.d/default.conf
-      - ${BABEL_HOME}/catalog:/app
-      - ${BABEL_HOME}/common:/app/common-dev
-    depends_on:
-      - vufind
-      - imgsrv
-      - apache-cgi
-
   imgsrv:
     build:
       context: .
       target: imgsrv-fcgi
     user: ${CURRENT_USER}
-      #    image: hathitrust-babel-base
     volumes:
       - ${BABEL_HOME}/imgsrv:/htapps/babel/imgsrv
       - ${BABEL_HOME}/mdp-lib:/htapps/babel/mdp-lib
@@ -47,14 +33,14 @@ services:
       - "31028:31028"
     command: bash -c "/htapps/babel/imgsrv/bin/startup_imgsrv"
 
-  apache-cgi:
+  apache:
     build:
       context: .
-      target: apache-cgi
+      target: apache
     user: ${CURRENT_USER}
     volumes:
-      - ${BABEL_HOME}/apache-cgi/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
-      - ${BABEL_HOME}/apache-cgi/auth:/etc/apache2/auth
+      - ${BABEL_HOME}/apache/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ${BABEL_HOME}/apache/auth:/etc/apache2/auth
       - ${BABEL_HOME}/imgsrv:/htapps/babel/imgsrv
       - ${BABEL_HOME}/logs:/htapps/babel/logs
       - ${BABEL_HOME}/cache:/htapps/babel/cache
@@ -74,6 +60,7 @@ services:
       - ${BABEL_HOME}/sample-data/etc:/htapps/babel/etc
       - ${BABEL_HOME}/sample-data/watermarks:/htapps/babel/watermarks
       - ${BABEL_HOME}/sample-data:/tmp/sample-data
+      - ${BABEL_HOME}/catalog:/htapps/catalog
     environment:
       - SDRROOT=/htapps/babel
       - SDRDATAROOT=/sdr1
@@ -81,8 +68,10 @@ services:
       - mysql-sdr
       - solr-sdr-catalog
       - solr-ptsearch
+      - imgsrv
+      - vufind
     ports:
-      - "41028:41028"
+      - "8080:8080"
 
   vufind:
     build: ./catalog
@@ -124,7 +113,7 @@ services:
     volumes:
       - ${BABEL_HOME}/slip/etc/sql/100_slip.sql:/docker-entrypoint-initdb.d/100_slip.sql
       - ${BABEL_HOME}/catalog/docker/vufind.sql:/docker-entrypoint-initdb.d/101_vufind.sql
-      - ${BABEL_HOME}/apache-cgi/auth/auth.sql:/docker-entrypoint-initdb.d/102_auth.sql
+      - ${BABEL_HOME}/apache/auth/auth.sql:/docker-entrypoint-initdb.d/102_auth.sql
       - ${BABEL_HOME}/mb/etc/sql/999_mb.sql:/docker-entrypoint-initdb.d/999_mb.sql
       - mysql_sdr_data:/var/lib/mysql
     ports:
