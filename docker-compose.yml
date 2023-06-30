@@ -113,14 +113,14 @@ services:
     volumes:
       - ${BABEL_HOME}/slip/etc/sql/100_slip.sql:/docker-entrypoint-initdb.d/100_slip.sql
       - ${BABEL_HOME}/catalog/docker/vufind.sql:/docker-entrypoint-initdb.d/101_vufind.sql
-      - ${BABEL_HOME}/apache/auth/auth.sql:/docker-entrypoint-initdb.d/102_auth.sql
+      - ${BABEL_HOME}/sql/auth.sql:/docker-entrypoint-initdb.d/102_auth.sql
+      - ${BABEL_HOME}/sql/permissions.sql:/docker-entrypoint-initdb.d/201_permissions.sql
       - ${BABEL_HOME}/mb/etc/sql/999_mb.sql:/docker-entrypoint-initdb.d/999_mb.sql
       - mysql_sdr_data:/var/lib/mysql
     ports:
       - "3307:3306"
 
     environment:
-      # - mysql-sdr_RANDOM_ROOT_PASSWORD=1
       MYSQL_ROOT_PASSWORD: TIMTOWTDIBSCINABTE
 
 #### INDEXING

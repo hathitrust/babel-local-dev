@@ -1,5 +1,3 @@
-GRANT SELECT,INSERT,UPDATE,DELETE ON ht.pt_exclusivity_ng TO `mdp-lib`;
-
 --- inserts for users with elevated access
 REPLACE INTO ht.ht_users (userid, displayname, email, role, access, expires, iprestrict, identity_provider, inst_id) VALUES
 ('totaluser@hathitrust.org','HathiTrust Totaluser','totaluser@hathitrust.org','staffdeveloper','total',ADD_MONTHS(CURRENT_TIMESTAMP, 60),'^.*$','https://idp.hathitrust.org/entity','hathitrust');
@@ -21,4 +19,3 @@ REPLACE INTO ht.ht_institutions (inst_id, name, domain, us, enabled, entityID, a
   VALUES ('nfb','National Federation of the Blind','nfb.org','1','1','pumex-idp','^(member)@nfb.org');
 
 REPLACE INTO ht.ht_institutions (inst_id, name, domain, us, enabled, entityID, allowed_affiliations, emergency_status)  VALUES ('etas','ETAS Example Inst','etas.example','1','1','https://idp.etas.example','^(member)@etas.example','^(member)@etas.example');
-SetEnv DEBUG auth
