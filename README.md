@@ -132,15 +132,18 @@ bundle exec ruby fetch_item.rb --stage /tmp/run.sh --input /tmp/htid-list.txt
 sh /tmp/run.sh
 ```
 
-## Resetting / updating database & solr schema
+## Database Utilities 
 
-If you need to reset or update the database or solr schema, you will need to
-make sure the persistent volumes for them are removed so that when you restart
-the containers they will get a fresh copy of the schema.
+### Resetting / updating database & solr schema
 
-```bash
-docker-compose down -v
-```
+`reset_database.sh`: If you need to reset or update the database or solr
+schema, you will need to make sure the persistent volumes for them are removed
+so that when you restart the containers they will get a fresh copy of the
+schema. The `reset_database.sh` script will do this.
+
+
+`mysql_sdr.sh`: This will connect to the `ht` database running inside the mysql
+container.
 
 ## Authentication
 
