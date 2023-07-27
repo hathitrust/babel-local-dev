@@ -101,7 +101,7 @@ Then, run `stage-item` with the downloaded zip and METS:
 
 ```bash
 cd stage-item
-bundle exec ruby stage_item.rb uc2.ark:/13960/t4mk66f1d ark+=13960=t4mk66f1d.zip ark+=13960=t4mk66f1d.mets.xml
+docker compose run stage-item bundle exec ruby stage_item.rb uc2.ark:/13960/t4mk66f1d ark+=13960=t4mk66f1d.zip ark+=13960=t4mk66f1d.mets.xml
 ```
 
 Note that the zip and METS must be named as they are in the actual
@@ -119,17 +119,10 @@ To batch download public domain items using the Data API:
 You can then fetch an item with
 
 ```bash
-# you've already done the stage-item configuration
-cd stage_item
-
 # pass htids as arguments; the --stage option will generate a bash script 
 # that will stage the downloaded items
-bundle exec ruby fetch_item.rb --stage /tmp/run.sh loc.ark:/13960/t05x2fk69 loc.ark:/13960/t05x2js29
-sh /tmp/run.sh
-
-# if you have a filenaming containing a list of identifiers:
-bundle exec ruby fetch_item.rb --stage /tmp/run.sh --input /tmp/htid-list.txt
-sh /tmp/run.sh
+docker compose run stage-item bundle exec ruby fetch_item.rb --stage /tmp/run.sh loc.ark:/13960/t05x2fk69 loc.ark:/13960/t05x2js29
+docker compose run stage-item bundle exec ruby fetch_item.rb --stage /tmp/run.sh --input /tmp/htid-list.txt
 ```
 
 ## Database Utilities 
