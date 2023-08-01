@@ -56,11 +56,16 @@ services:
       - ${BABEL_HOME}/slip-lib:/htapps/babel/slip-lib
       - ${BABEL_HOME}/plack-lib:/htapps/babel/plack-lib
       - ${BABEL_HOME}/mdp-web:/htapps/babel/mdp-web
+      - ${BABEL_HOME}/firebird-common:/htapps/babel/firebird-common
       - ${BABEL_HOME}/sample-data/sdr1:/sdr1
       - ${BABEL_HOME}/sample-data/etc:/htapps/babel/etc
       - ${BABEL_HOME}/sample-data/watermarks:/htapps/babel/watermarks
       - ${BABEL_HOME}/sample-data:/tmp/sample-data
       - ${BABEL_HOME}/catalog:/htapps/catalog
+      - /htapps/babel/firebird-common/node_modules
+      - /htapps/babel/pt/web/firebird/node_modules
+      - /htapps/babel/firebird-common/dist
+      - /htapps/babel/pt/web/firebird/dist
     environment:
       - SDRROOT=/htapps/babel
       - SDRDATAROOT=/sdr1
@@ -72,6 +77,8 @@ services:
       - vufind
     ports:
       - "8080:8080"
+      - "5173:5173"
+      - "8173:8173"
 
   vufind:
     build: ./catalog

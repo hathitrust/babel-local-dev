@@ -74,6 +74,19 @@ RUN chmod 4777 /htapps/babel/cache
 RUN mkdir /htapps/babel/logs
 RUN chmod 4777 /htapps/babel/logs
 
+RUN mkdir -p /htapps/babel/firebird-common/node_modules
+RUN chmod 4777 /htapps/babel/firebird-common/node_modules
+RUN mkdir -p /htapps/babel/firebird-common/dist
+RUN chmod 4777 /htapps/babel/firebird-common/dist
+
+RUN mkdir -p /htapps/babel/pt/web/firebird/node_modules
+RUN chmod 4777 /htapps/babel/pt/web/firebird/node_modules
+RUN mkdir -p /htapps/babel/pt/web/firebird/dist
+RUN chmod 4777 /htapps/babel/pt/web/firebird/dist
+
+RUN mkdir /.npm
+RUN chmod 4777 /.npm
+
 RUN ln -s /htapps/babel /htapps/test.babel
 RUN cd /htapps/babel
 
@@ -87,6 +100,7 @@ CMD ["/htapps/babel/imgsrv/bin/startup_imgsrv"]
 FROM babel-base AS apache
 
 RUN apt-get -y install apache2 libapache2-mod-fcgid
+RUN apt-get install -y nodejs npm
 
 RUN a2dissite '*'
 RUN a2disconf other-vhosts-access-log

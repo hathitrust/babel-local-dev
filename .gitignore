@@ -30,3 +30,4 @@ mdp-web/
 logs/
 cache/
 ptsearch-solr/
+firebird-common/

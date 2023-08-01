@@ -40,6 +40,7 @@ git clone --recurse-submodules $GIT_BASE/plack-lib
 git clone --recurse-submodules $GIT_BASE/slip-lib
 git clone --recurse-submodules $GIT_BASE/mdp-web
 git clone --recurse-submodules $GIT_BASE/ptsearch-solr
+git clone --recurse-submodules $GIT_BASE/firebird-common
 
 echo 
 echo 🍃 Setting up the environment...

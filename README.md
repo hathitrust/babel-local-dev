@@ -40,6 +40,16 @@ In your workdir:
 docker-compose up
 ```
 
+`firebird-common` and the `pt` firebird assets need to be compiled:
+
+```bash
+ build firebird-common
+docker-compose exec -- apache /htapps/babel/firebird-common/bin/build.sh
+
+# build pt/firebird
+docker-compose exec -- apache /htapps/babel/pt/bin/build.sh
+```
+
 In your browser:
 
 * catalog: `http://localhost:8080/Search/Home`
