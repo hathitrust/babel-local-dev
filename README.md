@@ -29,7 +29,7 @@ There's a lot, because we're replicating running on the dev servers with
 In your workdir:
 
 ```
-docker-compose build
+docker compose build
 ```
 
 ## Step 4: run `babel-local-dev`:
@@ -37,7 +37,7 @@ docker-compose build
 In your workdir:
 
 ```
-docker-compose up
+docker compose up
 ```
 
 In your browser:
@@ -81,10 +81,10 @@ To rebuild the CSS and JavaScript for `firebird-common` and `pt`:
 
 ```bash
  build firebird-common
-docker-compose run node /htapps/babel/firebird-common/bin/build.sh
+docker compose run node /htapps/babel/firebird-common/bin/build.sh
 
 # build pt/firebird
-docker-compose run node /htapps/babel/pt/bin/build.sh
+docker compose run node /htapps/babel/pt/bin/build.sh
 ```
 
 ## Staging an Item
