@@ -92,9 +92,22 @@ docker-compose run node /htapps/babel/pt/bin/build.sh
 The easiest way to do this (for internal developers) is to copy a ZIP and METS
 from production:
 
+First set the `HT_REPO_HOST` environment variable to somewhere you can scp from:
+
 ```bash
-./scp_and_stage_item.sh uc2.ark:/13960/t4mk66f1d ...
+  export HT_REPO_HOST=somebody@whatever.hathitrust.org
 ```
+
+Then:
+
+```bash
+./stage_item_scp.sh uc2.ark:/13960/t4mk66f1d
+```
+
+This will download the item via scp as well as its catalog metadata, stage it
+to the local repository, and index it in the local full-text index. You should
+then be able to view it via for example
+http://localhost:8080/cgi/pt?id=uc2.ark:/13960/t4mk66f1d
 
 ## Fetching an Item
 
