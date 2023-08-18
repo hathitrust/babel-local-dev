@@ -98,6 +98,7 @@ services:
     volumes:
       - ${BABEL_HOME}/firebird-common:/htapps/babel/firebird-common
       - ${BABEL_HOME}/pt:/htapps/babel/pt
+      - ${BABEL_HOME}/.npm:/.npm
 
 
 #### DATA STORES
