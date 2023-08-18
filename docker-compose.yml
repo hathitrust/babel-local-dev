@@ -1,5 +1,7 @@
 version: '3'
 
+name: babel-firebird
+
 services:
 
   imgsrv:
@@ -62,10 +64,6 @@ services:
       - ${BABEL_HOME}/sample-data/watermarks:/htapps/babel/watermarks
       - ${BABEL_HOME}/sample-data:/tmp/sample-data
       - ${BABEL_HOME}/catalog:/htapps/catalog
-      - /htapps/babel/firebird-common/node_modules
-      - /htapps/babel/pt/web/firebird/node_modules
-      - /htapps/babel/firebird-common/dist
-      - /htapps/babel/pt/web/firebird/dist
     environment:
       - SDRROOT=/htapps/babel
       - SDRDATAROOT=/sdr1
@@ -85,9 +83,22 @@ services:
     hostname: 'catalog-dev'
     volumes:
       - ${BABEL_HOME}/catalog:/app
+      - ${BABEL_HOME}/firebird-common:/htapps/babel/firebird-common
+    environment:
+      - FIREBIRD_HOME=/htapps/babel/firebird-common
     depends_on:
       - mysql-sdr
       - solr-sdr-catalog
+
+  node:
+    image: node:18-slim
+    user: ${CURRENT_USER}
+    profiles:
+      - node
+    volumes:
+      - ${BABEL_HOME}/firebird-common:/htapps/babel/firebird-common
+      - ${BABEL_HOME}/pt:/htapps/babel/pt
+
 
 #### DATA STORES
 
@@ -186,7 +197,7 @@ services:
       - mysql-sdr
     environment:
       - CATALOG_SOLR=http://solr-sdr-catalog:9033/solr/catalog
-      - LSS_SOLR=http://solr-lss-dev:9033/solr/core-x
+      - LSS_SOLR=http://solr-lss-dev:8983/solr/core-x
       - MYSQL_URL=mysql2://mdp-admin:mdp-admin@mysql-sdr:3306/ht
     profiles:
       - stage_item

@@ -51,6 +51,7 @@ CURRENT_USER="$(id -u):$(id -g)"
 APACHE_RUN_USER="$(id -u)"
 APACHE_RUN_GROUP="$(id -g)"
 BABEL_HOME="$(dirname $(realpath $0))"
+
 EOT
 
 echo
@@ -61,6 +62,13 @@ echo
 
 docker compose run traject bundle install
 docker compose run stage-item bundle install
+
+echo
+echo 🐦‍🔥 Building firebird...
+echo
+
+docker compose run node /htapps/babel/firebird-common/bin/build.sh
+docker compose run node /htapps/babel/pt/bin/build.sh
 
 echo
 echo 🎉 Done!

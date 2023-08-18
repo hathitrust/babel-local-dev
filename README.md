@@ -40,16 +40,6 @@ In your workdir:
 docker-compose up
 ```
 
-`firebird-common` and the `pt` firebird assets need to be compiled:
-
-```bash
- build firebird-common
-docker-compose exec -- apache /htapps/babel/firebird-common/bin/build.sh
-
-# build pt/firebird
-docker-compose exec -- apache /htapps/babel/pt/bin/build.sh
-```
-
 In your browser:
 
 * catalog: `http://localhost:8080/Search/Home`
@@ -74,51 +64,42 @@ mysql -h 127.0.0.1 -p 3307 -u mdp-admin -p
 Huzzah!
 
 Not yet configured:
-* `http://localhost:8080/cgi/mb`
-* `http://localhost:8080/cgi/ls`
 * `http://localhost:8080/cgi/whoami`
 * `http://localhost:8080/cgi/ping`
 * etc
 
 ## How this works (for now)
 
-* catalog runs nginx + php
+* catalog runs + php
 * babel cgi apps run under apache in a single container
 * imgsrv plack/psgi process runs in its own container
+* apache proxies to imgsrv & catalog
+
+## Rebuilding Assets
+
+To rebuild the CSS and JavaScript for `firebird-common` and `pt`:
+
+```bash
+ build firebird-common
+docker-compose run node /htapps/babel/firebird-common/bin/build.sh
+
+# build pt/firebird
+docker-compose run node /htapps/babel/pt/bin/build.sh
+```
 
 ## Staging an Item
 
-First, get a HathiTrust ZIP and METS. The easiest way to do this is probably by
-using the [Data API client](https://babel.hathitrust.org/cgi/htdc) to download
-a public domain item unencumbered by any contractual restrictions, for example
-`uc2.ark:/13960/t4mk66f1d`. Select "Download" and in turn select "Item METS
-file" and "entire item" and submit the form; this will download the ZIP and
-METS respectively.
-
-Running the stage item script requires a Ruby runtime. It will automate putting
-the item in the appropriate location under `imgsrv-sample-data`, fetch the
-bibliographic data, and extract and index the full text.
-
-`setup.sh` will attempt to install the Ruby library dependencies for `stage-item`.
-After it finishes, make sure all the solr and database services are running:
+The easiest way to do this (for internal developers) is to copy a ZIP and METS
+from production:
 
 ```bash
-docker-compose build
-docker-compose up
+./scp_and_stage_item.sh uc2.ark:/13960/t4mk66f1d ...
 ```
-
-Then, run `stage-item` with the downloaded zip and METS:
-
-```bash
-cd stage-item
-docker compose run stage-item bundle exec ruby stage_item.rb uc2.ark:/13960/t4mk66f1d ark+=13960=t4mk66f1d.zip ark+=13960=t4mk66f1d.mets.xml
-```
-
-Note that the zip and METS must be named as they are in the actual
-repository -- if you name them "foo.zip" or "foo.xml" they will not be renamed,
-and full-text indexing and PageTurner will not be able to find the item.
 
 ## Fetching an Item
+
+> **Warning**
+> As of August 2023 this is not working reliably.
 
 To batch download public domain items using the Data API:
 
@@ -126,13 +107,10 @@ To batch download public domain items using the Data API:
 * request a [Data API Key](https://babel.hathitrust.org/cgi/kgs)
 * update `.htd.ini` with the access and secret keys
 
-You can then fetch an item with
+You can then fetch one or more items with
 
 ```bash
-# pass htids as arguments; the --stage option will generate a bash script 
-# that will stage the downloaded items
-docker compose run stage-item bundle exec ruby fetch_item.rb --stage /tmp/run.sh loc.ark:/13960/t05x2fk69 loc.ark:/13960/t05x2js29
-docker compose run stage-item bundle exec ruby fetch_item.rb --stage /tmp/run.sh --input /tmp/htid-list.txt
+./fetch_and_stage_item.sh loc.ark:/13960/t05x2fk69 loc.ark:/13960/t05x2js29
 ```
 
 ## Database Utilities 
