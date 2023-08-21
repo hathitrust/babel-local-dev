@@ -109,23 +109,6 @@ to the local repository, and index it in the local full-text index. You should
 then be able to view it via for example
 http://localhost:8080/cgi/pt?id=uc2.ark:/13960/t4mk66f1d
 
-## Fetching an Item
-
-> **Warning**
-> As of August 2023 this is not working reliably.
-
-To batch download public domain items using the Data API:
-
-* copy `stage_item/.htd.ini.example` to `stage_item/.htd.ini`
-* request a [Data API Key](https://babel.hathitrust.org/cgi/kgs)
-* update `.htd.ini` with the access and secret keys
-
-You can then fetch one or more items with
-
-```bash
-./fetch_and_stage_item.sh loc.ark:/13960/t05x2fk69 loc.ark:/13960/t05x2js29
-```
-
 ## Database Utilities 
 
 ### Resetting / updating database & solr schema
