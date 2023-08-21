@@ -58,8 +58,6 @@ echo
 echo 💎 Setting up stage_item...
 echo
 
-# TODO configure path inside stage-item so docker compose will work with same prefix
-
 docker compose run traject bundle install
 docker compose run stage-item bundle install
 
