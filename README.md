@@ -29,7 +29,7 @@ There's a lot, because we're replicating running on the dev servers with
 In your workdir:
 
 ```
-docker-compose build
+docker compose build
 ```
 
 ## Step 4: run `babel-local-dev`:
@@ -37,7 +37,7 @@ docker-compose build
 In your workdir:
 
 ```
-docker-compose up
+docker compose up
 ```
 
 In your browser:
@@ -64,86 +64,73 @@ mysql -h 127.0.0.1 -p 3307 -u mdp-admin -p
 Huzzah!
 
 Not yet configured:
-* `http://localhost:8080/cgi/mb`
-* `http://localhost:8080/cgi/ls`
 * `http://localhost:8080/cgi/whoami`
 * `http://localhost:8080/cgi/ping`
 * etc
 
 ## How this works (for now)
 
-* catalog runs nginx + php
+* catalog runs + php
 * babel cgi apps run under apache in a single container
 * imgsrv plack/psgi process runs in its own container
+* apache proxies to imgsrv & catalog
+
+## Rebuilding Assets
+
+To rebuild the CSS and JavaScript for `firebird-common` and `pt`:
+
+```bash
+ build firebird-common
+docker compose run node /htapps/babel/firebird-common/bin/build.sh
+
+# build pt/firebird
+docker compose run node /htapps/babel/pt/bin/build.sh
+```
 
 ## Staging an Item
 
-First, get a HathiTrust ZIP and METS. The easiest way to do this is probably by
-using the [Data API client](https://babel.hathitrust.org/cgi/htdc) to download
-a public domain item unencumbered by any contractual restrictions, for example
-`uc2.ark:/13960/t4mk66f1d`. Select "Download" and in turn select "Item METS
-file" and "entire item" and submit the form; this will download the ZIP and
-METS respectively.
+The easiest way to do this (for internal developers) is to copy a ZIP and METS
+from production:
 
-Running the stage item script requires a Ruby runtime. It will automate putting
-the item in the appropriate location under `imgsrv-sample-data`, fetch the
-bibliographic data, and extract and index the full text.
-
-`setup.sh` will attempt to install the Ruby library dependencies for `stage-item`.
-After it finishes, make sure all the solr and database services are running:
+First set the `HT_REPO_HOST` environment variable to somewhere you can scp from:
 
 ```bash
-docker-compose build
-docker-compose up
+  export HT_REPO_HOST=somebody@whatever.hathitrust.org
 ```
 
-Then, run `stage-item` with the downloaded zip and METS:
+Then:
 
 ```bash
-cd stage-item
-bundle exec ruby stage_item.rb uc2.ark:/13960/t4mk66f1d ark+=13960=t4mk66f1d.zip ark+=13960=t4mk66f1d.mets.xml
+./stage_item_scp.sh uc2.ark:/13960/t4mk66f1d
 ```
 
-Note that the zip and METS must be named as they are in the actual
-repository -- if you name them "foo.zip" or "foo.xml" they will not be renamed,
-and full-text indexing and PageTurner will not be able to find the item.
+This will download the item via scp as well as its catalog metadata, stage it
+to the local repository, and index it in the local full-text index. You should
+then be able to view it via for example
+http://localhost:8080/cgi/pt?id=uc2.ark:/13960/t4mk66f1d
 
-## Fetching an Item
+## Database Utilities 
 
-To batch download public domain items using the Data API:
+### Resetting / updating database & solr schema
 
-* copy `stage_item/.htd.ini.example` to `stage_item/.htd.ini`
-* request a [Data API Key](https://babel.hathitrust.org/cgi/kgs)
-* update `.htd.ini` with the access and secret keys
+`reset_database.sh`: If you need to reset or update the database or solr
+schema, you will need to make sure the persistent volumes for them are removed
+so that when you restart the containers they will get a fresh copy of the
+schema. The `reset_database.sh` script will do this.
 
-You can then fetch an item with
 
-```bash
-# you've already done the stage-item configuration
-cd stage_item
+`mysql_sdr.sh`: This will connect to the `ht` database running inside the mysql
+container.
 
-# pass htids as arguments; the --stage option will generate a bash script 
-# that will stage the downloaded items
-bundle exec ruby fetch_item.rb --stage /tmp/run.sh loc.ark:/13960/t05x2fk69 loc.ark:/13960/t05x2js29
-sh /tmp/run.sh
+## Authentication
 
-# if you have a filenaming containing a list of identifiers:
-bundle exec ruby fetch_item.rb --stage /tmp/run.sh --input /tmp/htid-list.txt
-sh /tmp/run.sh
-```
-
-## Resetting / updating database & solr schema
-
-If you need to reset or update the database or solr schema, you will need to
-make sure the persistent volumes for them are removed so that when you restart
-the containers they will get a fresh copy of the schema.
-
-```bash
-docker-compose down -v
-```
+You can simulate various authenticated scenarios by setting environment
+variables in Apache. There is appropriate setup for a variety of scenarios and
+user types in configuration files under `apache-cgi/auth`, and a helper script
+`switch_auth.sh` to allow you to pick a particular scenario and configure the
+local Apache server to use it.
 
 ## TODO
 
 - [ ] link to documentation for important tasks - e.g. running apps under debugging, updating css/js, etc
 - [ ] easy mechanism to generate placeholder volumes in `imgsrv-sample-data` that correspond to the records in the catalog
-- [ ] make it easier to fetch real volumes

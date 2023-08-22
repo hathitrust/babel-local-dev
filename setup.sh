@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cat <<EOT
 Checking out into $PWD
@@ -10,7 +10,7 @@ EOT
 
 echo -n "Your choice? [1]: "
 
-read -N 1 proto
+read -n 1 proto
 
 GIT_BASE="https://github.com/hathitrust"
 
@@ -40,19 +40,33 @@ git clone --recurse-submodules $GIT_BASE/plack-lib
 git clone --recurse-submodules $GIT_BASE/slip-lib
 git clone --recurse-submodules $GIT_BASE/mdp-web
 git clone --recurse-submodules $GIT_BASE/ptsearch-solr
+git clone --recurse-submodules $GIT_BASE/firebird-common
 
-echo "CURRENT_USER=$(id -u):$(id -g)" >> .env
-echo "APACHE_RUN_USER=$(id -u)" >> .env
-echo "APACHE_RUN_GROUP=$(id -g)" >> .env
+echo 
+echo 🍃 Setting up the environment...
+echo 
+
+cat <<EOT | tee .env
+CURRENT_USER="$(id -u):$(id -g)"
+APACHE_RUN_USER="$(id -u)"
+APACHE_RUN_GROUP="$(id -g)"
+BABEL_HOME="$(dirname $(realpath $0))"
+
+EOT
 
 echo
 echo 💎 Setting up stage_item...
 echo
 
-docker-compose run traject bundle install
-cd stage-item
-bundle config set --local path 'vendor/bundle'
-bundle install
+docker compose run traject bundle install
+docker compose run stage-item bundle install
+
+echo
+echo 🐦‍🔥 Building firebird...
+echo
+
+docker compose run node /htapps/babel/firebird-common/bin/build.sh
+docker compose run node /htapps/babel/pt/bin/build.sh
 
 echo
 echo 🎉 Done!

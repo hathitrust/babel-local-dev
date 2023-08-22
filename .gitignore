@@ -4,6 +4,8 @@ vendor
 .htd.ini
 stage-item/*.xml
 stage-item/*.zip
+apache/auth/active_auth.conf
+
 
 # other repositories
 
@@ -28,3 +30,4 @@ mdp-web/
 logs/
 cache/
 ptsearch-solr/
+firebird-common/

@@ -84,7 +84,7 @@ FROM babel-base AS imgsrv-fcgi
 WORKDIR /htapps/babel/imgsrv
 CMD ["/htapps/babel/imgsrv/bin/startup_imgsrv"]
 
-FROM babel-base AS apache-cgi
+FROM babel-base AS apache
 
 RUN apt-get -y install apache2 libapache2-mod-fcgid
 
@@ -99,9 +99,9 @@ RUN a2enmod headers \
             proxy_http \
             cgi
 
-COPY apache-cgi/000-default.conf /etc/apache2/sites-enabled
+COPY apache/000-default.conf /etc/apache2/sites-enabled
 STOPSIGNAL SIGWINCH
 
-COPY apache-cgi/apache.sh /
+COPY apache/apache.sh /
 RUN chmod +x /apache.sh
 ENTRYPOINT ["/apache.sh"]
