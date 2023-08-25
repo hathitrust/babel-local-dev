@@ -1,7 +1,5 @@
 FROM debian:bookworm AS babel-base
 
-ENV COMPOSE_PROJECT_NAME=babel
-
 # # does not work bookworm - evaluate if it's needed
 # RUN sed -i 's/main.*/main contrib non-free/' /etc/apt/sources.list
 
