@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Check Out Repository
         uses: actions/checkout@v3
-        with:
-          path: babel
 
       - name: Log in to package registry
         uses: docker/login-action@v1
