@@ -23,11 +23,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Docker Setup
-        run: docker-compose build
-
       - name: Dependency Setup
         run: ./setup.sh SSH
+
+      - name: Docker Setup
+        run: docker-compose build
 
       - name: Run tests
         run: docker-compose run test
