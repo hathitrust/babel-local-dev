@@ -6,6 +6,7 @@ require "fileutils"
 require "ht/pairtree"
 require "marc"
 require "sequel"
+require "stringio"
 require "tempfile"
 
 # The parent of babel-local-dev where all the HathiTrust repos are checked out
@@ -66,19 +67,22 @@ class StageItem
   end
 
   def fetch_metadata(tempfile)
-    url = "/Record/HTID/#{htid}.json"
+    url = "/Record/HTID/#{htid}.xml"
     puts "📙 Getting metadata #{CATALOG_BASE}#{url} and saving to tempfile #{tempfile.path}\n"
 
     conn = Faraday.new(CATALOG_BASE) do |f|
       f.response :follow_redirects
     end
 
-    json = conn.get("/Record/HTID/#{htid}.json").body
+    xml = conn.get("/Record/HTID/#{htid}.xml").body
 
-    tempfile.write(json)
-    tempfile.flush
+    record = MARC::XMLReader.new(StringIO.new(xml), parser: 'magic').first
 
-    MARC::Record.new_from_hash(JSON.parse(json))
+    MARC::JSONLWriter.new(tempfile) do |w|
+      w.write(record)
+    end
+
+    return record
   end
 
   def populate_database(record)
