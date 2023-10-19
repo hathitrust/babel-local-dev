@@ -1,5 +1,7 @@
 FROM debian:bookworm AS babel-base
 
+ENV COMPOSE_PROJECT_NAME=babel
+
 # # does not work bookworm - evaluate if it's needed
 # RUN sed -i 's/main.*/main contrib non-free/' /etc/apt/sources.list
 
@@ -83,6 +85,8 @@ FROM babel-base AS imgsrv-fcgi
 
 WORKDIR /htapps/babel/imgsrv
 CMD ["/htapps/babel/imgsrv/bin/startup_imgsrv"]
+
+FROM babel-base AS test
 
 FROM babel-base AS apache
 
