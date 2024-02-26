@@ -80,11 +80,17 @@ Not yet configured:
 To rebuild the CSS and JavaScript for `firebird-common` and `pt`:
 
 ```bash
- build firebird-common
-docker compose run node /htapps/babel/firebird-common/bin/build.sh
+#build firebird-common
+docker compose run firebird /htapps/babel/firebird-common/bin/build.sh
 
 # build pt/firebird
-docker compose run node /htapps/babel/pt/bin/build.sh
+docker compose run page-turner /htapps/babel/pt/bin/build.sh
+```
+
+To stand up a development environment while working strictly on the front-end.
+
+```bash
+docker compose --profile node up
 ```
 
 ## Staging an Item
@@ -109,7 +115,7 @@ to the local repository, and index it in the local full-text index. You should
 then be able to view it via for example
 http://localhost:8080/cgi/pt?id=uc2.ark:/13960/t4mk66f1d
 
-## Database Utilities 
+## Database Utilities
 
 ### Resetting / updating database & solr schema
 
