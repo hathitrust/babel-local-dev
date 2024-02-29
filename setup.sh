@@ -42,9 +42,9 @@ git clone --recurse-submodules $GIT_BASE/mdp-web
 git clone --recurse-submodules $GIT_BASE/ptsearch-solr
 git clone --recurse-submodules $GIT_BASE/firebird-common
 
-echo 
+echo
 echo 🍃 Setting up the environment...
-echo 
+echo
 
 cat <<EOT | tee .env
 CURRENT_USER="$(id -u):$(id -g)"
@@ -65,8 +65,8 @@ echo
 echo 🐦‍🔥 Building firebird...
 echo
 
-docker compose run node /htapps/babel/firebird-common/bin/build.sh
-docker compose run node /htapps/babel/pt/bin/build.sh
+docker compose run firebird /htapps/babel/firebird-common/bin/build.sh
+docker compose run page-turner /htapps/babel/pt/bin/build.sh
 
 echo
 echo 🎉 Done!

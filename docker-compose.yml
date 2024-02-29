@@ -1,6 +1,17 @@
-version: '3'
+version: '3.8'
 
 name: babel-firebird
+
+x-node: &node
+    image: node:18-slim
+    user: ${CURRENT_USER}
+    profiles:
+      - node
+    volumes:
+      - ${BABEL_HOME}/firebird-common:/htapps/babel/firebird-common
+      - ${BABEL_HOME}/pt:/htapps/babel/pt
+      - ${BABEL_HOME}/.npm:/.npm
+
 
 services:
 
@@ -90,18 +101,19 @@ services:
       - mysql-sdr
       - solr-sdr-catalog
 
-  node:
-    image: node:18-slim
-    user: ${CURRENT_USER}
-    profiles:
-      - node
-    volumes:
-      - ${BABEL_HOME}/firebird-common:/htapps/babel/firebird-common
-      - ${BABEL_HOME}/pt:/htapps/babel/pt
-      - ${BABEL_HOME}/.npm:/.npm
+  firebird:
+    <<: *node
+    working_dir: /htapps/babel/firebird-common
+    command: ['npm', 'run', 'babel']
+
+  page-turner:
+    <<: *node
+    working_dir: /htapps/babel/pt/web/firebird
+    command: ['npm', 'run', 'babel']
 
 
-#### DATA STORES
+
+### DATA STORES
 
   solr-sdr-catalog:
     image: ghcr.io/hathitrust/catalog-solr-sample
