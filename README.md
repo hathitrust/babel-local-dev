@@ -1,6 +1,7 @@
 # Setting up babel-local-dev
 
-> DRAFT DRAFT DRAFT
+> [!IMPORTANT]
+> This repository is archived; it has been superceded by https://github.com/hathitrust/babel
 
 ## Step 1: check out all the things
 
